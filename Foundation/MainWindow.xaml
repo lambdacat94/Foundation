@@ -1,0 +1,182 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Foundation.MainWindow"
+        Title="MainWindow" Height="700" Width="1098.94" ResizeMode="CanMinimize">
+    <Window.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="MyDictionary.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </Window.Resources>
+
+
+
+    <Grid Margin="22.72,0,17.72,-20">
+        <TabControl x:Name="tabSteps" HorizontalAlignment="Left" Height="637.134" Margin="0,10,0,0" 
+			Template="{StaticResource OfficeTabControl}" VerticalAlignment="Top" Width="1052.56" RenderTransformOrigin="0.5,0.5">
+            <TabControl.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1" ScaleX="1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TabControl.RenderTransform>
+            <TabItem Header="初始参数设置" IsSelected="True" RenderTransformOrigin="0.5,0.5" Height="50" Width="159" Margin="0.5,0,0,0">
+                <Grid Height="637" Width="778">
+                    <Button Name="BtnSaveParams1" Content="保存参数" HorizontalAlignment="Left" Margin="30.909,7.492,0,0" VerticalAlignment="Top" Width="75" Click="BtnSaveParams_Click"/>
+                    <Button Name="BtnLoadParams1" Content="载入参数" HorizontalAlignment="Left" Margin="117.909,7.492,0,0" VerticalAlignment="Top" Width="75" Click="BtnLoadParams_Click"/>
+                    <ListView x:Name="LstShowDeps" HorizontalAlignment="Left" Height="435.721" Margin="31.896,141.612,0,0" VerticalAlignment="Top" Width="705.97" MouseDoubleClick="LstShowDeps_MouseDoubleClick">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Height" Value="50" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView x:Name="showDeps">
+                                <GridViewColumn Header="学部名称" Width="200" DisplayMemberBinding="{Binding DepartmentName}"/>
+                                <GridViewColumn Header="重点支持受理" Width="160" DisplayMemberBinding="{Binding KeyAcceptCount}"/>
+                                <GridViewColumn Header="培育受理" Width="160" DisplayMemberBinding="{Binding CulAcceptCount}" />
+                                <GridViewColumn Header="本地优青受理" Width="160" DisplayMemberBinding="{Binding YoungAcceptCount}" />
+                            </GridView>
+                        </ListView.View>
+
+                    </ListView>
+                    <!--<Button Content="+" x:Name="BtnAddItem" HorizontalAlignment="Left" Margin="698.687,6.493,0,0" VerticalAlignment="Top" Width="39.179" Height="25" Click="BtnAddItem_Click"/>-->
+                    <Button Content="修改学部信息" Name="BtnAdjItem" HorizontalAlignment="Left" Margin="509.135,602,0,0" VerticalAlignment="Top" Width="98.88" Height="25" Click="BtnAdjItem_Click"/>
+                    <Button Content="删除学部" x:Name="BtnDeleteItem" HorizontalAlignment="Left" Margin="634.507,602,0,0" VerticalAlignment="Top" Width="98.88" Height="25" Click="BtnDeleteItem_Click"/>
+
+                    <Frame Content="新增学部信息" x:Name="inFrame"  HorizontalAlignment="Left" Height="72" Margin="31.896,45.615,0,0" VerticalAlignment="Top" Width="705.97" Background="#FFF3E5E5" NavigationUIVisibility="Hidden"/>
+                    <Button Content="增加" x:Name="BtnAddParam" HorizontalAlignment="Left" Margin="682.268,86.974,0,0" VerticalAlignment="Top" Width="51.119" Height="24.984" Click="BtnAddParam_Click"/>
+                    <TextBox x:Name="TbxDepName" HorizontalAlignment="Left" Height="22" Margin="47.528,88.958,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="TbxKeyCount" HorizontalAlignment="Left" Height="22" Margin="210.237,88.958,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="TbxCulCount"  HorizontalAlignment="Left" Height="22" Margin="370.401,88.958,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="TbxYoungCount" HorizontalAlignment="Left" Height="22" Margin="524.189,88.958,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="学部名称" x:Name="LbDepName" HorizontalAlignment="Left" Margin="73.672,63.52,0,0" VerticalAlignment="Top"/>
+                    <Label Content="重点受理数" x:Name="LbKeyAc" HorizontalAlignment="Left" Margin="234.119,63.52,0,0" VerticalAlignment="Top"/>
+                    <Label Content="培育受理数" x:Name="LbCulAc" HorizontalAlignment="Left" Margin="395.774,63.52,0,0" VerticalAlignment="Top"/>
+                    <Label Content="本地优青受理数" x:Name="LbYoungAc" HorizontalAlignment="Left" Margin="533.146,65.011,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.156,-4.173"/>
+                    <Button Content="选择文件自动统计" HorizontalAlignment="Left" Margin="294.625,7.492,0,0" VerticalAlignment="Top" Width="111.734"/>
+                    <Label Name="LbPleaseInput" Content="请输入学部名称！" HorizontalAlignment="Left" Margin="425.911,4,0,0" VerticalAlignment="Top" Width="119.5" Foreground="#FFD40707" FontWeight="Bold" FontSize="14" Visibility="Collapsed"/>
+                    <!--<Button Name="BtnCloseAdjWindow" Content="X" HorizontalAlignment="Left" Margin="714.88,47.829,0,0" VerticalAlignment="Top" Height="20" Width="20" Click="BtnCloseAdjWindow_Click"/>-->
+                    <Button Name="BtnClearAll" Content="清空数据" HorizontalAlignment="Left" Margin="207.93,7.492,0,0" VerticalAlignment="Top" Width="74.23" Click="BtnClearAll_Click"/>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="经费计算" Height="50" VerticalAlignment="Top" Width="159" Margin="0.5,0,0,0" BorderBrush="#FF1B1B1C">
+                <Grid Height="637" Width="875.896">
+
+                    <GroupBox Header="参数设置" HorizontalAlignment="Left" Margin="11.5,42.227,0,0" VerticalAlignment="Top" Height="166.797" Width="568.085">
+                        <Grid HorizontalAlignment="Left" Width="558.085" Margin="0,0,-2,3.75">
+                            <TextBox x:Name="TbxTotalMoney" Margin="75.068,0,0,104.01" Height="22" HorizontalAlignment="Left" Width="104.558" VerticalAlignment="Bottom"/>
+                            <TextBox x:Name="TbxRemMoneyMin" HorizontalAlignment="Left" Width="45" Margin="342.588,19.153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxRemMoneyMin_PreviewKeyDown" RenderTransformOrigin="2.974,0.599" Height="22" />
+                            <TextBox x:Name="TbxRemMoneyMax" HorizontalAlignment="Left" Width="45" Margin="402.01,19.153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxRemMoneyMax_PreviewKeyDown" RenderTransformOrigin="2.591,0.619" Height="22"/>
+                            <TextBox x:Name="TbxKeyCountMin" HorizontalAlignment="Left" Margin="75,80.401,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxKeyCountMin_PreviewKeyDown" Width="45" Height="22"/>
+                            <TextBox x:Name="TbxKeyCountMax" HorizontalAlignment="Left" Width="45" Margin="135,80.401,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxKeyCountMax_PreviewKeyDown" Height="22"/>
+                            <TextBox x:Name="TbxCulCountMin" HorizontalAlignment="Left" Width="45" Margin="75,113.027,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxCulCountMin_PreviewKeyDown" Height="22"/>
+                            <TextBox x:Name="TbxCulCountMax" HorizontalAlignment="Left" Width="45" Margin="135,113.027,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxCulCountMax_PreviewKeyDown" Height="22"/>
+                            <TextBox x:Name="TbxKeyIntenMin" HorizontalAlignment="Left" Width="45" Margin="342.588,81.651,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxKeyIntenMin_PreviewKeyDown" RenderTransformOrigin="-2.427,0.251" Height="22" />
+                            <TextBox x:Name="TbxKeyIntenMax" HorizontalAlignment="Left" Width="45" Margin="402.01,81.651,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxKeyIntenMax_PreviewKeyDown" RenderTransformOrigin="0.181,0.398" Height="22" />
+                            <TextBox x:Name="TbxCulIntenMin" HorizontalAlignment="Left" Width="45" Margin="342.588,114.277,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxCulIntenMin_PreviewKeyDown" Height="22" />
+                            <TextBox x:Name="TbxCulIntenMax" HorizontalAlignment="Left" Width="45" Margin="402.01,114.277,0,0" TextWrapping="Wrap" VerticalAlignment="Top" PreviewKeyDown="TbxCulIntenMax_PreviewKeyDown" Height="22" />
+                            <Label Content="总金额：" HorizontalAlignment="Left" Margin="10,16.651,0,0" VerticalAlignment="Top" Width="70"/>
+                            <Label Content="剩余金额：" HorizontalAlignment="Left" Margin="267.588,16.651,0,0" VerticalAlignment="Top"/>
+                            <Label Content="重点数：" HorizontalAlignment="Left" Margin="10,77.412,0,0" VerticalAlignment="Top"/>
+                            <Label Content="培育数：" HorizontalAlignment="Left" Margin="10,109.919,0,0" VerticalAlignment="Top"/>
+                            <Label Content="重点强度：" HorizontalAlignment="Left" Margin="267.588,78.662,0,0" VerticalAlignment="Top"/>
+                            <Label Content="培育强度：" HorizontalAlignment="Left" Margin="267.588,110.921,0,0" VerticalAlignment="Top"/>
+
+                            <Label Content="总金额↓" HorizontalAlignment="Left" Margin="184.626,-6.332,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="#FFF70909"/>
+                            <Label Content="实际剩余金额↓" HorizontalAlignment="Left" Margin="460.339,-6.332,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="#FFF70909"/>
+                            <Label Content="~" HorizontalAlignment="Left" Margin="117.849,78.341,0,0" VerticalAlignment="Top"/>
+                            <Label Content="~" HorizontalAlignment="Left" Margin="117.849,111.164,0,0" VerticalAlignment="Top"/>
+                            <Label Content="~" HorizontalAlignment="Left" Margin="384.601,16.651,0,0" VerticalAlignment="Top"/>
+                            <Label Content="~" HorizontalAlignment="Left" Margin="384.601,81.083,0,0" VerticalAlignment="Top"/>
+                            <Label Content="~" HorizontalAlignment="Left" Margin="384.601,112.534,0,0" VerticalAlignment="Top"/>
+                            <TextBox  x:Name="TbxYoungCountMin" HorizontalAlignment="Left" Margin="75.068,50.091,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="106.493" Height="22"/>
+                            <Label Content="本地优青：" HorizontalAlignment="Left" Margin="0.068,47.107,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="TbxYoungIntenMin" HorizontalAlignment="Left" Margin="342.588,50.091,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" RenderTransformOrigin="-0.343,2.616" Height="22"/>
+                            <Label Content="本地优青强度："  HorizontalAlignment="Left" Margin="243.588,47.107,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.458,2.17"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="优先级选择" Margin="601.34,40.977,139.778,428.023" Height="168">
+                        <Grid Margin="-1.493,0,-1.554,0">
+                            <RadioButton x:Name="CbRemMoney" Content="剩余金额优先" IsChecked="True" HorizontalAlignment="Left" Height="21" Margin="9.014,21.909,0,0" VerticalAlignment="Top" Click="CbRemMoney_Click" />
+                            <RadioButton x:Name="CbKeyInten" Content="重点强度优先" HorizontalAlignment="Left" Height="21" Margin="9.014,67.318,0,0" VerticalAlignment="Top" Click="CbKeyInten_Click" />
+                            <RadioButton x:Name="CbKeyRate" Content="重点率优先" HorizontalAlignment="Left" Height="21" Margin="9.014,114.212,0,0" VerticalAlignment="Top" Click="CbKeyRate_Click" Width="100" />
+                        </Grid>
+                    </GroupBox>
+                    <Button Content="计算" x:Name="BtnCalculate" HorizontalAlignment="Left" Margin="757.702,60.028,0,0" VerticalAlignment="Top" Width="63" Click="BtnCalculate_Click"/>
+                    <Button x:Name="BtnPreOne" Content="上一方案" HorizontalAlignment="Left" Margin="757.702,126.337,0,0" VerticalAlignment="Top" Width="63" Click="BtnPreOne_Click"/>
+                    <Button x:Name="BtnNextOne" Content="下一方案" HorizontalAlignment="Left" Margin="757.702,165.906,0,0" VerticalAlignment="Top" Width="63" Click="BtnNextOne_Click"/>
+                    <Label x:Name="LbRecTotalMoney" Content="0" HorizontalAlignment="Left" Margin="202.605,74.446,0,0" VerticalAlignment="Top" Width="47" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="LbRemMoney" Content="0" HorizontalAlignment="Left" Margin="490.984,74.446,0,0" VerticalAlignment="Top" Foreground="#FFF30D0D" FontWeight="Bold" RenderTransformOrigin="4.293,4.878" HorizontalContentAlignment="Center" Width="39.851"/>
+                    <ListView x:Name="LstShowDetails" HorizontalAlignment="Left" Height="298.999" Margin="11.5,305.304,0,0" VerticalAlignment="Top" Width="852.007">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Height" Value="40" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="学部名称" Width="80" DisplayMemberBinding="{Binding DepartmentName}" />
+                                <GridViewColumn Header="培育受理" Width="60" DisplayMemberBinding="{Binding CulAcceptCount}"/>
+                                <GridViewColumn Header="培育占比" Width="60" DisplayMemberBinding="{Binding CulRate}"/>
+                                <GridViewColumn Header="重点受理" Width="60" DisplayMemberBinding="{Binding KeyAcceptCount}"/>
+                                <GridViewColumn Header="重点占比" Width="60" DisplayMemberBinding="{Binding KeyRate}"/>
+                                <GridViewColumn Header="本地优青受理" Width="75" DisplayMemberBinding="{Binding YoungAcceptCount}" />
+                                <GridViewColumn Header="培育(计算)" Width="65" DisplayMemberBinding="{Binding CulCaled}"/>
+                                <GridViewColumn Header="培育(取整)" Width="65" DisplayMemberBinding="{Binding CulRound}"/>
+                                <GridViewColumn Header="重点(计算)" Width="65" DisplayMemberBinding="{Binding KeyCaled}"/>
+                                <GridViewColumn Header="重点(取整)" Width="65" DisplayMemberBinding="{Binding KeyRound}"/>
+                                <GridViewColumn Header="优青(计算)" Width="65" DisplayMemberBinding="{Binding YoungCaled}"/>
+                                <GridViewColumn Header="优青(取整)" Width="65" DisplayMemberBinding="{Binding YoungRound}" />
+                                <GridViewColumn Header="经费指标" Width="70" DisplayMemberBinding="{Binding Total}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="BtnAddResult" Content="将此方案添加到结果队列" HorizontalAlignment="Left" Margin="486.829,609.303,0,0" VerticalAlignment="Top" Height="26" Width="148.277" Click="BtnAddResult_Click"/>
+                    <Button x:Name="BtnWriteToFile" Content="将所有方案写出到文件" HorizontalAlignment="Left" Margin="664.367,609.303,0,0" VerticalAlignment="Top" Height="26" Width="135" Click="BtnWriteToFile_Click"/>
+                    <Label x:Name="LbNoResult"  Content="无合适的方案，请重新设定参数并计算" HorizontalAlignment="Left" Height="43.5" Margin="267.5,354.25,0,0" VerticalAlignment="Top" Width="266.623" Background="#FFE6D1D1" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Hidden"/>
+                    <Button x:Name="BtnSaveParams" Content="保存参数" HorizontalAlignment="Left" Margin="11.5,7.492,0,0" VerticalAlignment="Top" Width="75" Click="BtnSaveParams_Click"/>
+                    <Button x:Name="BtnLoadParams" Content="载入参数" HorizontalAlignment="Left" Margin="98.5,7.492,0,0" VerticalAlignment="Top" Click="BtnLoadParams_Click" Width="75"/>
+                    <GroupBox Header="推荐值" HorizontalAlignment="Left" Height="87.53" Margin="11.5,212.774,0,0" VerticalAlignment="Top" Width="724.618">
+                        <Grid HorizontalAlignment="Left" Margin="0,-6.837,-55.75,-6.724" Width="716.106" Height="78.254" VerticalAlignment="Top">
+                            <Label Content="本地优青数：" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label Content="资助率：" HorizontalAlignment="Left" Margin="10,40.836,0,0" VerticalAlignment="Top"/>
+                            <Label Content="资助强度：" HorizontalAlignment="Left" Margin="128.448,10,0,0" VerticalAlignment="Top"/>
+                            <Label Content="重点数：" HorizontalAlignment="Left" Margin="253.448,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label Content="资助率：" HorizontalAlignment="Left" Margin="253.448,40.836,0,0" VerticalAlignment="Top"/>
+                            <Label Content="资助强度：" HorizontalAlignment="Left" Margin="357.198,10,0,0" VerticalAlignment="Top"/>
+                            <Label Content="培育数：" HorizontalAlignment="Left" Margin="483.448,10,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                            <Label Content="资助率：" HorizontalAlignment="Left" Margin="483.448,40.836,0,0" VerticalAlignment="Top"/>
+                            <Label Content="资助强度：" HorizontalAlignment="Left" Margin="592.198,10,0,0" VerticalAlignment="Top"/>
+                            <Label x:Name="LbYoungAcRate" Content="0" HorizontalAlignment="Left" Margin="73,40.836,0,0" VerticalAlignment="Top" Width="55" HorizontalContentAlignment="Center"/>
+                            <Label x:Name="LbKeyCount" Content="0" HorizontalAlignment="Left" Margin="311.448,9.999,0,0" VerticalAlignment="Top" Width="32" HorizontalContentAlignment="Center"/>
+                            <Label x:Name="LbKeyAcRate" Content="0" HorizontalAlignment="Left" Margin="300.502,40.835,0,0" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.916,0.56" HorizontalContentAlignment="Center"/>
+                            <Label x:Name="LbKeyInten" Content="0" HorizontalAlignment="Left" Margin="427.198,9.999,0,0" VerticalAlignment="Top" Width="32" RenderTransformOrigin="-1.905,1.858" HorizontalContentAlignment="Center"/>
+                            <Label x:Name="LbCulInten" Content="0" HorizontalAlignment="Left" Margin="662.198,10,0,0" VerticalAlignment="Top" Width="32" RenderTransformOrigin="-0.463,0.12" HorizontalContentAlignment="Center"/>
+                            <Label x:Name="LbCulAcRate" Content="0" HorizontalAlignment="Left" Margin="528.948,42.417,0,0" VerticalAlignment="Top" Width="55" HorizontalContentAlignment="Center"/>
+                            <Label x:Name="LbCulCount" Content="0" HorizontalAlignment="Left" Margin="541.448,11.58,0,0" VerticalAlignment="Top" Width="32" RenderTransformOrigin="-3.803,2.119" HorizontalContentAlignment="Center"/>
+                            <Label x:Name="LbYoungCount" Content="0" HorizontalAlignment="Left" Margin="92,9.999,0,0" VerticalAlignment="Top"/>
+                            <Label x:Name="LbYoungInten" Content="0" HorizontalAlignment="Left" Margin="198.448,10,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
