@@ -26,7 +26,6 @@ namespace Foundation
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private InitParameters initParam;
         private Calculator calculator;
 
