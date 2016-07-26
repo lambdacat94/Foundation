@@ -31,7 +31,6 @@ namespace Foundation
 
         public MainWindow()
         {
-
             InitializeComponent();
 
             initParam = new InitParameters();
