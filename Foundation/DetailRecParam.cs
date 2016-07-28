@@ -27,6 +27,11 @@ namespace Foundation
 
         public double Total { get; set; }
 
+        // 培育/重点/优青的资助率
+        public double CulFundingRate { get; set; }
+        public double KeyFundingRate { get; set; }
+        public double YoungFundingRate { get; set; }
+
         public RecParameter RecParam { get; set; }
     }
 }

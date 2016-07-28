@@ -56,6 +56,13 @@ namespace Foundation
             }
         }
 
+        // 按照选择的第几个显示，dog shit 
+        private void DisplayDogshit()
+        {
+
+        }
+
+
         private bool IsNumber(string str)
         {
             if (str == string.Empty || str.Length == 0)
@@ -125,6 +132,49 @@ namespace Foundation
             });
         }
 
+        // LbKeyAcRate.Content = string.Format("{0:#.00%}", keyAcRate);
+        private void UpdateRange()
+        {
+            Department dep = initParam.GetStatistic();
+            if (IsNumber(TbxKeyCountMin.Text))
+            {
+                double td = Convert.ToDouble(TbxKeyCountMin.Text) / dep.KeyAcceptCount;
+                LbKeyRateMin.Content = string.Format("{0:#.00%}", td);
+            }
+            if (IsNumber(TbxKeyCountMax.Text))
+            {
+                double td = Convert.ToDouble(TbxKeyCountMax.Text) / dep.KeyAcceptCount;
+                LbKeyRateMax.Content = string.Format("{0:#.00%}", td);
+            }
+            if (IsNumber(TbxCulCountMin.Text))
+            {
+                double td = Convert.ToDouble(TbxCulCountMin.Text) / dep.CulAcceptCount;
+                LbCulRateMin.Content = string.Format("{0:#.00%}", td);
+            }
+            if (IsNumber(TbxCulCountMax.Text))
+            {
+                double td = Convert.ToDouble(TbxCulCountMax.Text) / dep.CulAcceptCount;
+                LbCulRateMax.Content = string.Format("{0:#.00%}", td);
+            }
+            if (IsNumber(TbxYoungCountMin.Text))
+            {
+                double td = Convert.ToDouble(TbxYoungCountMin.Text) / dep.YoungAcceptCount;
+                LbYRate.Content = string.Format("{0:#.00%}", td);
+            }
+        }
+
+        // 刷新右上角的 ListView
+        private void RefreshPicked(ArrayList rstArr)
+        {
+            lstShowRst.Items.Clear();
+            foreach (ArrayList det in rstArr)
+            {
+                
+                
+                lstShowRst.Items.Add(((DetailRecParam)det[0]).RecParam);
+                
+            }
+        }
 
         private void HideInitParamWindow()
         {
@@ -322,6 +372,8 @@ namespace Foundation
         // 排序规则对象 End
 
 
+
+
         // 更新主界面上推荐数字的显示，此时如果传来一个空数组那么一定会引发问题
         private void UpdateMainRecParam(ArrayList detArr)
         { 
@@ -350,6 +402,7 @@ namespace Foundation
                 {
                     youngAcRate = Convert.ToDouble(TbxYoungCountMin.Text) / dep.YoungAcceptCount;
                 }
+
                 LbKeyAcRate.Content = string.Format("{0:#.00%}", keyAcRate);
                 LbCulAcRate.Content = string.Format("{0:#.00%}", culAcRate);
                 LbYoungAcRate.Content = string.Format("{0:#.00%}", youngAcRate);
@@ -380,6 +433,19 @@ namespace Foundation
             LbRemMoney.Content = "";
         }
 
+
+        private void UpdateHowManySols()
+        {
+            if (calculator != null)
+            {
+                ArrayList tmpArr = (ArrayList)calculator.GetUltimateArrayRef();
+                LbHowMany.Content = "已选择的方案数 " + resultArray.Count.ToString() + " / " + tmpArr.Count.ToString() + "计算出总方案数";
+            }
+            else
+            {
+                MessageBox.Show("calculator对象引用为空！");
+            }
+        }
 
 
         
@@ -424,6 +490,7 @@ namespace Foundation
                     //MessageBox.Show("无合适的方案，Click");
                 }
             }
+            UpdateHowManySols();
         }
 
         private void BtnNextOne_Click(object sender, RoutedEventArgs e)
@@ -668,6 +735,8 @@ namespace Foundation
         {
             if (calculator.GetUltimateArrayRef().Count == 0) return;
             resultArray.Add((ArrayList)calculator.GetUltimateArrayRef()[Calculator.Idx]);
+            UpdateHowManySols();
+            RefreshPicked(resultArray);
             MessageBox.Show("该方案已经添加到结果队列");
         }
 
@@ -1768,6 +1837,35 @@ namespace Foundation
             }
         }
 
+        private void TbxYoungCountMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateRange();
+        }
 
+        private void TbxKeyCountMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateRange();
+        }
+
+        private void TbxKeyCountMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateRange();
+        }
+
+        private void TbxCulCountMin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateRange();
+        }
+
+        private void TbxCulCountMax_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateRange();
+        }
+
+        private void lstShowRst_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DisplayDetailsLst((ArrayList)resultArray[lstShowRst.SelectedIndex]);
+            UpdateMainRecParam((ArrayList)resultArray[lstShowRst.SelectedIndex]);
+        }
     }
 }

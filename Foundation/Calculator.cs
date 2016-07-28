@@ -57,6 +57,7 @@ namespace Foundation
                 ArrayList newList = new ArrayList();
 
                 double totalCulAccept, totalKeyAccept, totalYoungAccept, culRate, keyRate, youngRate, culCaled, keyCaled, youngCaled;
+                double culFundingRate, keyFundingRate, youngFundingRate;
                 int culAc, keyAc, culRound, keyRound, youngAc, youngRound;
 
                 for (int j = 0; j < initParameters.DepartmentCount; j++)
@@ -99,6 +100,9 @@ namespace Foundation
                     //======= = ========================================================================================
                     //MessageBox.Show(youngCaled.ToString() + "    " + youngRate.ToString() + "    " + totalYoungAccept.ToString());
 
+                    culFundingRate = ((RecParameter)recParamArray.GetRecArrayRef()[i]).CulCount * 1.0 / totalCulAccept;
+                    keyFundingRate = ((RecParameter)recParamArray.GetRecArrayRef()[i]).KeyCount * 1.0 / totalKeyAccept;
+                    youngFundingRate = ((RecParameter)recParamArray.GetRecArrayRef()[i]).YoungCount * 1.0 / totalYoungAccept;
 
                     youngRound = (int)Math.Round(youngCaled);
 
@@ -106,22 +110,29 @@ namespace Foundation
                     keyRound = (int)Math.Round(keyCaled);
 
                     DetailRecParam detailParam = new DetailRecParam() { 
-                         DepartmentName = ((Department)(initParameters.GetDataBanding()[j])).DepartmentName,
-                         CulAcceptCount = culAc, KeyAcceptCount = keyAc, YoungAcceptCount = youngAc,
-                         CulRate = culRate, KeyRate = keyRate, YoungRate = youngRate,
+                        DepartmentName = ((Department)(initParameters.GetDataBanding()[j])).DepartmentName,
+                        CulAcceptCount = culAc, KeyAcceptCount = keyAc, YoungAcceptCount = youngAc,
+                        CulRate = culRate, KeyRate = keyRate, YoungRate = youngRate,
                          
-                         CulCaled = culCaled, KeyCaled = keyCaled, YoungCaled = youngCaled,
-                         CulRound = culRound, KeyRound = keyRound, YoungRound = youngRound,
-                         Total = (((RecParameter)recParamArray.GetRecArrayRef()[i]).CulInten * culRound +
+                        CulCaled = culCaled, KeyCaled = keyCaled, YoungCaled = youngCaled,
+                        CulRound = culRound, KeyRound = keyRound, YoungRound = youngRound,
+                        Total = (((RecParameter)recParamArray.GetRecArrayRef()[i]).CulInten * culRound +
                                     ((RecParameter)recParamArray.GetRecArrayRef()[i]).KeyInten * keyRound) +
                                     ((RecParameter)recParamArray.GetRecArrayRef()[i]).YoungInten * youngRound,
-                         RecParam = (RecParameter)recParamArray.GetRecArrayRef()[i]
+                        // ====================== Extended ==========================
+                        CulFundingRate = culFundingRate,
+                        KeyFundingRate = keyFundingRate,
+                        YoungFundingRate = youngFundingRate,
+                        // ====================== Extended ==========================
+                        RecParam = (RecParameter)recParamArray.GetRecArrayRef()[i]
                     };
                     // MessageBox.Show(detailParam.RecParam.CulInten.ToString());
                     newList.Add(detailParam);
                 }
                 culAc = keyAc = youngAc = culRound = keyRound = youngRound = 0;
                 totalCulAccept = totalKeyAccept = totalYoungAccept = culRate = keyRate = youngRate = culCaled = keyCaled = youngCaled = 0.0;
+                culFundingRate = keyFundingRate = youngFundingRate = 0.0;
+
 
                 double total = 0;
                 foreach (DetailRecParam det in newList)
@@ -141,14 +152,19 @@ namespace Foundation
                     culRound += det.CulRound;
                     keyRound += det.KeyRound;
                     youngRound += det.YoungRound;
-                    
+
+                    culFundingRate += det.CulFundingRate;
+                    keyFundingRate += det.KeyFundingRate;
+                    youngFundingRate += det.YoungFundingRate;
+
                     total += det.Total;
                 }
 
                 newList.Add(new DetailRecParam() { 
                     DepartmentName = "合计", CulAcceptCount = culAc, KeyAcceptCount = keyAc, YoungAcceptCount = youngAc,
                     CulRate = culRate, KeyRate = keyRate, YoungRate = youngRate, CulCaled = culCaled, KeyCaled = keyCaled, YoungCaled = youngCaled,
-                    CulRound = culRound, KeyRound = keyRound, YoungRound = youngRound, Total = total
+                    CulRound = culRound, KeyRound = keyRound, YoungRound = youngRound, Total = total,
+                    CulFundingRate = culFundingRate, KeyFundingRate = keyFundingRate, YoungFundingRate = youngFundingRate
                 });
                 ultimateRecArray.Add(newList);
             }
