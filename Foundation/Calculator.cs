@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Diagnostics;
+
 using System.Windows;
 
 namespace Foundation
@@ -69,45 +71,50 @@ namespace Foundation
                     culAc = ((Department)(initParameters.GetDataBanding()[j])).CulAcceptCount;
                     keyAc = ((Department)(initParameters.GetDataBanding()[j])).KeyAcceptCount;
                     youngAc = ((Department)(initParameters.GetDataBanding()[j])).YoungAcceptCount;
-                    /*
-                    MessageBox.Show("TotalCulAccept " + totalCulAccept.ToString() + " TotalKeyAccept " + totalKeyAccept.ToString() +
-                        " CulAcc " + culAc.ToString() + " KeyAcc " + keyAc.ToString());
-                    */
-                    // ===========================================
+
+                    
+
                     if (totalCulAccept == 0.0)
+                    {
                         culRate = 0.0;
+                    }
                     else
+                    {
                         culRate = culAc * 1.0 / totalCulAccept;
+                    }
                     // ===========================================
                     if (totalKeyAccept == 0.0)
+                    {
                         keyRate = 0.0;
+                    }
                     else
+                    {
                         keyRate = keyAc * 1.0 / totalKeyAccept;
+                    }
                     // ===========================================
                     if (totalYoungAccept == 0.0)
+                    {
                         youngRate = 0.0;
+                    }
                     else
+                    {
                         youngRate = youngAc * 1.0 / totalYoungAccept;
-
-
-                    // MessageBox.Show("CulRate " + culRate.ToString() + " KeyRate " + keyRate.ToString());
-
+                    }
 
 
                     culCaled = ((RecParameter)recParamArray.GetRecArrayRef()[i]).CulCount * 1.0 * culRate;
                     keyCaled = ((RecParameter)recParamArray.GetRecArrayRef()[i]).KeyCount * 1.0 * keyRate;
                     youngCaled = ((RecParameter)recParamArray.GetRecArrayRef()[i]).YoungCount * 1.0 * youngRate;
-                    //======= = ========================================================================================
-                    //MessageBox.Show(youngCaled.ToString() + "    " + youngRate.ToString() + "    " + totalYoungAccept.ToString());
 
-                    culFundingRate = ((RecParameter)recParamArray.GetRecArrayRef()[i]).CulCount * 1.0 / totalCulAccept;
-                    keyFundingRate = ((RecParameter)recParamArray.GetRecArrayRef()[i]).KeyCount * 1.0 / totalKeyAccept;
-                    youngFundingRate = ((RecParameter)recParamArray.GetRecArrayRef()[i]).YoungCount * 1.0 / totalYoungAccept;
 
                     youngRound = (int)Math.Round(youngCaled);
-
                     culRound = (int)Math.Round(culCaled);
                     keyRound = (int)Math.Round(keyCaled);
+
+                    if (totalCulAccept != 0.0) culFundingRate = culRound * 1.0 / totalCulAccept; else culFundingRate = 0.0;
+                    if (totalKeyAccept != 0.0) keyFundingRate = keyRound * 1.0 / totalKeyAccept; else keyFundingRate = 0.0;
+                    if (totalYoungAccept != 0.0) youngFundingRate = youngRound * 1.0 / totalYoungAccept; else youngFundingRate = 0.0;
+
 
                     DetailRecParam detailParam = new DetailRecParam() { 
                         DepartmentName = ((Department)(initParameters.GetDataBanding()[j])).DepartmentName,
@@ -171,6 +178,8 @@ namespace Foundation
             // MessageBox.Show(ultimateRecArray.Count.ToString());
         }
 
+
+        ArrayList arrLevel1Aux = new ArrayList();
         // 四舍五入后是否
         private void ReduceLevel1()
         {
@@ -181,7 +190,9 @@ namespace Foundation
                 if ((((DetailRecParam)uArr[uArr.Count - 1]).KeyRound != ((DetailRecParam)uArr[uArr.Count - 1]).KeyCaled) ||
                     (((DetailRecParam)uArr[uArr.Count - 1]).CulRound != ((DetailRecParam)uArr[uArr.Count - 1]).CulCaled))
                 {
+                    arrLevel1Aux.Add(ultimateRecArray[idx]);
                     ultimateRecArray.RemoveAt(idx);
+
                     up--;
                 }
                 else
@@ -209,6 +220,7 @@ namespace Foundation
 
         private int ReduceLevel2()
         {
+            
             rst = new ArrayList();
             for (int i = 0; i < ultimateRecArray.Count; i++)
             {
@@ -239,9 +251,19 @@ namespace Foundation
 
             for (int i = ar.Count - 1; i >= 0; --i)
             {
+                arrLevel2Aux.Add(ultimateRecArray[(int)ar[i]]);
                 ultimateRecArray.RemoveAt((int)ar[i]);
             }
 
+            /*
+            for (int i = 0; i < arrLevel1Aux.Count; ++i)
+            {
+                if (ultimateRecArray.Count < 10)
+                {
+                    ultimateRecArray.Add(arrLevel1Aux[i]);
+                }
+            }
+            */
             return ultimateRecArray.Count;
 
             //MessageBox.Show(ultimateRecArray.Count.ToString());
@@ -347,25 +369,61 @@ namespace Foundation
                     }
                 }
             }
+            
             // MessageBox.Show(recParamArray.GetRecParamsCount().ToString());
             RefreshUltimateArray();
+            // MessageBox.Show("Least " + ultimateRecArray.Count.ToString() + " fangan");
             ReduceLevel1();
+            // MessageBox.Show(ultimateRecArray.Count.ToString() + " fangans after level1");
             int rd2 = ReduceLevel2();
-            int rd3 = ReduceLevel3();
+            // MessageBox.Show(ultimateRecArray.Count.ToString() + " fangans after level2");
+            int rd3 = 0;
+            if (rd2 > 10) rd3 = ReduceLevel3();
+            // MessageBox.Show(ultimateRecArray.Count.ToString() + " fangans after level3");
             //int rd4 = ReduceLevel4();
+
+            // MessageBox.Show(rd2.ToString());
+            // MessageBox.Show(rd3.ToString());
 
             if (rd2 == 0)
             {
                 for (int i = 0; i < arrLevel2Aux.Count; i++)
                 {
+                    if (ultimateRecArray.Count > 14) break;
                     ultimateRecArray.Add(arrLevel2Aux[i]);
                 }
+                for (int i = 0; i < arrLevel1Aux.Count; ++i)
+                {
+                    if (ultimateRecArray.Count < 10)
+                    {
+                        ultimateRecArray.Add(arrLevel1Aux[i]);
+                    }
+                    else
+                        break;
+                }
+
             }
             else if (rd3 == 0)
             {
                 for (int i = 0; i < arrLevel3Aux.Count; i++)
                 {
                     ultimateRecArray.Add(arrLevel3Aux[i]);
+                }
+
+                for (int j = 0; j < arrLevel2Aux.Count; ++j)
+                {
+                    ultimateRecArray.Add(arrLevel2Aux[j]);
+                    if (ultimateRecArray.Count > 10) break;
+                }
+                   
+                for (int j = 0; j < arrLevel1Aux.Count; ++j)
+                {
+                    if (ultimateRecArray.Count < 10)
+                    {
+                        ultimateRecArray.Add(arrLevel1Aux[j]);
+                    }
+                    else
+                        break;
                 }
             }
             

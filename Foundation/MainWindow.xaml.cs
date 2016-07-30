@@ -44,6 +44,8 @@ namespace Foundation
             LstShowDetails.DataContext = calculator.GetUltimateArrayRef();
 
             isAlter = false;
+
+            InitDepSelect();
         }
 
 
@@ -138,27 +140,47 @@ namespace Foundation
             Department dep = initParam.GetStatistic();
             if (IsNumber(TbxKeyCountMin.Text))
             {
-                double td = Convert.ToDouble(TbxKeyCountMin.Text) / dep.KeyAcceptCount;
+                double td = 0.0;
+                if (dep.KeyAcceptCount != 0.0)
+                    td = Convert.ToDouble(TbxKeyCountMin.Text) / dep.KeyAcceptCount;
+                else
+                    td = 0.0;
                 LbKeyRateMin.Content = string.Format("{0:#.00%}", td);
             }
             if (IsNumber(TbxKeyCountMax.Text))
             {
-                double td = Convert.ToDouble(TbxKeyCountMax.Text) / dep.KeyAcceptCount;
+                double td = 0.0;
+                if (dep.KeyAcceptCount != 0.0)
+                    td = Convert.ToDouble(TbxKeyCountMax.Text) / dep.KeyAcceptCount;
+                else
+                    td = 0.0;
                 LbKeyRateMax.Content = string.Format("{0:#.00%}", td);
             }
             if (IsNumber(TbxCulCountMin.Text))
             {
-                double td = Convert.ToDouble(TbxCulCountMin.Text) / dep.CulAcceptCount;
+                double td = 0.0;
+                if (dep.CulAcceptCount != 0.0)
+                    td = Convert.ToDouble(TbxCulCountMin.Text) / dep.CulAcceptCount;
+                else
+                    td = 0.0;
                 LbCulRateMin.Content = string.Format("{0:#.00%}", td);
             }
             if (IsNumber(TbxCulCountMax.Text))
             {
-                double td = Convert.ToDouble(TbxCulCountMax.Text) / dep.CulAcceptCount;
+                double td = 0.0;
+                if (dep.CulAcceptCount != 0.0)
+                    td = Convert.ToDouble(TbxCulCountMax.Text) / dep.CulAcceptCount;
+                else
+                    td = 0.0;
                 LbCulRateMax.Content = string.Format("{0:#.00%}", td);
             }
             if (IsNumber(TbxYoungCountMin.Text))
             {
-                double td = Convert.ToDouble(TbxYoungCountMin.Text) / dep.YoungAcceptCount;
+                double td = 0.0;
+                if (dep.YoungAcceptCount != 0.0)
+                    td = Convert.ToDouble(TbxYoungCountMin.Text) / dep.YoungAcceptCount;
+                else
+                    td = 0.0;
                 LbYRate.Content = string.Format("{0:#.00%}", td);
             }
         }
@@ -771,7 +793,7 @@ namespace Foundation
 
             sheet.SetColumnWidth(3 + rstCount, 20 * 256);
 
-            int offset = 30;
+            int offset = 34;
 
             for (int i = 0; i <= resultArray.Count * offset; i++)
             {
@@ -940,79 +962,100 @@ namespace Foundation
                 c.CellStyle = styleHeader;
                 c.SetCellValue("培育(取整)");
 
+                // ================= appended start ==================
                 r = sheet.GetRow((i - 1) * offset + 15);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持(计算)");
+                c.SetCellValue("培育资助率");
+                // ================= appended end ==================
 
                 r = sheet.GetRow((i - 1) * offset + 16);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持(取整)");
+                c.SetCellValue("重点支持(计算)");
 
                 r = sheet.GetRow((i - 1) * offset + 17);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
+                c.SetCellValue("重点支持(取整)");
+
+                // ================= appended start ==================
+                r = sheet.GetRow((i - 1) * offset + 18);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("重点资助率");
+                // ================= appended end ==================
+
+                r = sheet.GetRow((i - 1) * offset + 19);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
                 c.SetCellValue("本地优青(计算)");
 
-                r = sheet.GetRow((i - 1) * offset + 18);
+                r = sheet.GetRow((i - 1) * offset + 20);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("本地优青(取整)");
 
+                // ================= appended start ==================
+                r = sheet.GetRow((i - 1) * offset + 21);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("本地优青资助率");
+                // ================= appended end ==================
 
-                r = sheet.GetRow((i - 1) * offset + 19);
+
+                r = sheet.GetRow((i - 1) * offset + 22);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("经费指标");
 
 
-                r = sheet.GetRow((i - 1) * offset + 20);
+                r = sheet.GetRow((i - 1) * offset + 23);
                 c = r.CreateCell(1);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("办公室建议会评项目(项)");
 
-                r = sheet.GetRow((i - 1) * offset + 22);
+                r = sheet.GetRow((i - 1) * offset + 25);
                 c = r.CreateCell(1);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("联席会建议会评项目(项)");
 
-                r = sheet.GetRow((i - 1) * offset + 24);
+                r = sheet.GetRow((i - 1) * offset + 27);
                 c = r.CreateCell(1);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("联席会建议批准(项,万元)");
 
-                r = sheet.GetRow((i - 1) * offset + 20);
-                c = r.CreateCell(2);
-                c.CellStyle = styleHeader;
-                c.SetCellValue("培育");
-
-                r = sheet.GetRow((i - 1) * offset + 21);
-                c = r.CreateCell(2);
-                c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持");
-
-                r = sheet.GetRow((i - 1) * offset + 22);
-                c = r.CreateCell(2);
-                c.CellStyle = styleHeader;
-                c.SetCellValue("培育");
-
                 r = sheet.GetRow((i - 1) * offset + 23);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持");
+                c.SetCellValue("培育");
 
                 r = sheet.GetRow((i - 1) * offset + 24);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
-                c.SetCellValue("培育");
+                c.SetCellValue("重点支持");
 
                 r = sheet.GetRow((i - 1) * offset + 25);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持");
+                c.SetCellValue("培育");
 
                 r = sheet.GetRow((i - 1) * offset + 26);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("重点支持");
+
+                r = sheet.GetRow((i - 1) * offset + 27);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("培育");
+
+                r = sheet.GetRow((i - 1) * offset + 28);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("重点支持");
+
+                r = sheet.GetRow((i - 1) * offset + 29);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("经费指标");
@@ -1023,12 +1066,14 @@ namespace Foundation
                 ArrayList oneResult = (ArrayList)resultArray[i - 1];
                 for (int j = 1; j <= oneResult.Count; j++)
                 {
+                    // 学部名称
                     DetailRecParam det = (DetailRecParam)oneResult[j - 1];
                     IRow row = sheet.GetRow((i - 1) * offset + 2);
                     ICell cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleHeader;
                     cell.SetCellValue(det.DepartmentName);
 
+                    // 
                     row = sheet.GetRow((i - 1) * offset + 3);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKey;
@@ -1050,95 +1095,123 @@ namespace Foundation
                     cell.CellStyle = styleKey;
 
 
-
+                    // 培育受理
                     row = sheet.GetRow((i - 1) * offset + 8);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleCul;
                     cell.SetCellValue(det.CulAcceptCount);
 
+                    // 培育百分比
                     row = sheet.GetRow((i - 1) * offset + 9);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleRateCell;
                     cell.SetCellValue(det.CulRate);
 
+                    // 重点支持受理数
                     row = sheet.GetRow((i - 1) * offset + 10);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKey;
                     cell.SetCellValue(det.KeyAcceptCount);
 
+                    // 重点所占百分比
                     row = sheet.GetRow((i - 1) * offset + 11);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleRateCellRed;
                     cell.SetCellValue(det.KeyRate);
 
+                    //本地优青
                     row = sheet.GetRow((i - 1) * offset + 12);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKey;
                     cell.SetCellValue(det.YoungAcceptCount);
 
 
-
+                    // 培育计算
                     row = sheet.GetRow((i - 1) * offset + 13);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleCul;
                     cell.SetCellValue(det.CulCaled);
 
+                    // 培育取整
                     row = sheet.GetRow((i - 1) * offset + 14);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleCul;
                     cell.SetCellValue(det.CulRound);
 
+                    // 培育资助率 ====
                     row = sheet.GetRow((i - 1) * offset + 15);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleCul;
+                    cell.SetCellValue(det.CulFundingRate);
+
+                    // 重点计算
+                    row = sheet.GetRow((i - 1) * offset + 16);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKeyRed;
                     cell.SetCellValue(det.KeyCaled);
 
-                    row = sheet.GetRow((i - 1) * offset + 16);
+                    // 重点取整
+                    row = sheet.GetRow((i - 1) * offset + 17);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKey;
                     cell.SetCellValue(det.KeyRound);
 
-                    row = sheet.GetRow((i - 1) * offset + 17);
+                    // 重点资助率
+                    row = sheet.GetRow((i - 1) * offset + 18);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleCul;
+                    cell.SetCellValue(det.KeyFundingRate);
+
+                    // 本地优青计算
+                    row = sheet.GetRow((i - 1) * offset + 19);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKey;
                     cell.SetCellValue(det.YoungCaled);
 
-                    row = sheet.GetRow((i - 1) * offset + 18);
+                    // 本地优青取整
+                    row = sheet.GetRow((i - 1) * offset + 20);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKey;
                     cell.SetCellValue(det.YoungRound);
 
+                    // 本地优青资助率
+                    row = sheet.GetRow((i - 1) * offset + 21);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleCul;
+                    cell.SetCellValue(det.YoungFundingRate);
 
-                    row = sheet.GetRow((i - 1) * offset + 19);
+
+                    // 经费指标
+                    row = sheet.GetRow((i - 1) * offset + 22);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleHeader;
                     cell.SetCellValue(det.Total);
 
-                    row = sheet.GetRow((i - 1) * offset + 20);
-                    cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleCul;
-
-                    row = sheet.GetRow((i - 1) * offset + 21);
-                    cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleKey;
-
-                    row = sheet.GetRow((i - 1) * offset + 22);
-                    cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleCul;
-
                     row = sheet.GetRow((i - 1) * offset + 23);
                     cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleKey;
+                    cell.CellStyle = styleCul;
 
                     row = sheet.GetRow((i - 1) * offset + 24);
                     cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleCul;
+                    cell.CellStyle = styleKey;
 
                     row = sheet.GetRow((i - 1) * offset + 25);
                     cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleKey;
+                    cell.CellStyle = styleCul;
 
                     row = sheet.GetRow((i - 1) * offset + 26);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleKey;
+
+                    row = sheet.GetRow((i - 1) * offset + 27);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleCul;
+
+                    row = sheet.GetRow((i - 1) * offset + 28);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleKey;
+
+                    row = sheet.GetRow((i - 1) * offset + 29);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleHeader;
                 }
@@ -1147,19 +1220,19 @@ namespace Foundation
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
-                for (int j = (i - 1) * offset + 14; j <= (i - 1) * offset + 19; j++)
+                for (int j = (i - 1) * offset + 14; j <= (i - 1) * offset + 22; j++)
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
-                for (int j = (i - 1) * offset + 21; j <= (i - 1) * offset + 21; j++)
+                for (int j = (i - 1) * offset + 21; j <= (i - 1) * offset + 24; j++)
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
-                for (int j = (i - 1) * offset + 23; j <= (i - 1) * offset + 23; j++)
+                for (int j = (i - 1) * offset + 23; j <= (i - 1) * offset + 26; j++)
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
-                for (int j = (i - 1) * offset + 25; j <= (i - 1) * offset + 26; j++)
+                for (int j = (i - 1) * offset + 25; j <= (i - 1) * offset + 29; j++)
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
@@ -1168,12 +1241,12 @@ namespace Foundation
 
 
 
-                IRow ir = sheet.GetRow((i - 1) * offset + 27);
+                IRow ir = sheet.GetRow((i - 1) * offset + 30);
                 ICell ic = ir.CreateCell(1);
                 ic.CellStyle = styleBold;
                 ic.SetCellValue("注：1、指南：重点支持项目平均资助强度为XXX万元/项；培育项目平均资助强度为XX万元/项。");
 
-                ir = sheet.GetRow((i - 1) * offset + 28);
+                ir = sheet.GetRow((i - 1) * offset + 31);
                 ic = ir.CreateCell(1);
                 ic.CellStyle = styleKeyRed;
                 ic.SetCellValue("2、考虑：培育：" + ((DetailRecParam)oneResult[0]).RecParam.CulInten.ToString() +
@@ -1181,14 +1254,14 @@ namespace Foundation
                      ((DetailRecParam)oneResult[0]).RecParam.RemMoney.ToString() + "万元");
 
                 // 下方说明1
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 27, (i - 1) * offset + 27, 1, 4));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 30, (i - 1) * offset + 30, 1, 4));
                 // 下方说明2
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 28, (i - 1) * offset + 28, 1, 4));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 31, (i - 1) * offset + 31, 1, 4));
 
                 // 受理申请
                 sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 3, (i - 1) * offset + 12, 1, 1));
                 // 办公室
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 13, (i - 1) * offset + 19, 1, 1));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 13, (i - 1) * offset + 22, 1, 1));
                 // 申请科学部
                 sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 2, (i - 1) * offset + 2, 1, 2));
                 // 抬头
@@ -1196,9 +1269,9 @@ namespace Foundation
                 sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 1, (i - 1) * offset + 1, 1, 5));
 
 
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 20, (i - 1) * offset + 21, 1, 1));
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 22, (i - 1) * offset + 23, 1, 1));
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 24, (i - 1) * offset + 26, 1, 1));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 23, (i - 1) * offset + 24, 1, 1));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 25, (i - 1) * offset + 26, 1, 1));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 27, (i - 1) * offset + 29, 1, 1));
 
             }
 
@@ -1234,7 +1307,7 @@ namespace Foundation
 
             sheet.SetColumnWidth(3 + rstCount, 20 * 256);
 
-            int offset = 30;
+            int offset = 34;
 
             for (int i = 0; i <= resultArray.Count * offset; i++)
             {
@@ -1399,46 +1472,50 @@ namespace Foundation
                 c.CellStyle = styleHeader;
                 c.SetCellValue("培育(取整)");
 
+                // ================== start ==================
                 r = sheet.GetRow((i - 1) * offset + 14);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持(计算)");
+                c.SetCellValue("培育资助率");
+                // ================== end ==================
 
                 r = sheet.GetRow((i - 1) * offset + 15);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持(取整)");
+                c.SetCellValue("重点支持(计算)");
 
                 r = sheet.GetRow((i - 1) * offset + 16);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("重点支持(取整)");
+
+                // =================== start ==================
+                r = sheet.GetRow((i - 1) * offset + 17);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("重点资助率");
+                // =================== end ====================
+
+                r = sheet.GetRow((i - 1) * offset + 18);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("经费指标");
 
 
-                r = sheet.GetRow((i - 1) * offset + 17);
+                r = sheet.GetRow((i - 1) * offset + 19);
                 c = r.CreateCell(1);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("办公室建议会评项目(项)");
 
-                r = sheet.GetRow((i - 1) * offset + 19);
+                r = sheet.GetRow((i - 1) * offset + 21);
                 c = r.CreateCell(1);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("联席会建议会评项目(项)");
 
-                r = sheet.GetRow((i - 1) * offset + 21);
+                r = sheet.GetRow((i - 1) * offset + 23);
                 c = r.CreateCell(1);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("联席会建议批准(项,万元)");
-
-                r = sheet.GetRow((i - 1) * offset + 17);
-                c = r.CreateCell(2);
-                c.CellStyle = styleHeader;
-                c.SetCellValue("培育");
-
-                r = sheet.GetRow((i - 1) * offset + 18);
-                c = r.CreateCell(2);
-                c.CellStyle = styleHeader;
-                c.SetCellValue("重点支持");
 
                 r = sheet.GetRow((i - 1) * offset + 19);
                 c = r.CreateCell(2);
@@ -1461,6 +1538,16 @@ namespace Foundation
                 c.SetCellValue("重点支持");
 
                 r = sheet.GetRow((i - 1) * offset + 23);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("培育");
+
+                r = sheet.GetRow((i - 1) * offset + 24);
+                c = r.CreateCell(2);
+                c.CellStyle = styleHeader;
+                c.SetCellValue("重点支持");
+
+                r = sheet.GetRow((i - 1) * offset + 25);
                 c = r.CreateCell(2);
                 c.CellStyle = styleHeader;
                 c.SetCellValue("经费指标");
@@ -1529,28 +1616,35 @@ namespace Foundation
                     cell.CellStyle = styleCul;
                     cell.SetCellValue(det.CulRound);
 
+                    // 培育资助率
                     row = sheet.GetRow((i - 1) * offset + 14);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleKeyRed;
+                    cell.SetCellValue(det.CulFundingRate);
+
+                    // 重点支持计算
+                    row = sheet.GetRow((i - 1) * offset + 15);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKeyRed;
                     cell.SetCellValue(det.KeyCaled);
 
-                    row = sheet.GetRow((i - 1) * offset + 15);
+                    // 重点支持取整
+                    row = sheet.GetRow((i - 1) * offset + 16);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleKey;
                     cell.SetCellValue(det.KeyRound);
 
-                    row = sheet.GetRow((i - 1) * offset + 16);
+                    // 重点资助率
+                    row = sheet.GetRow((i - 1) * offset + 17);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleKeyRed;
+                    cell.SetCellValue(det.KeyFundingRate);
+
+                    // 经费指标
+                    row = sheet.GetRow((i - 1) * offset + 18);
                     cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleHeader;
                     cell.SetCellValue(det.Total);
-
-                    row = sheet.GetRow((i - 1) * offset + 17);
-                    cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleCul;
-
-                    row = sheet.GetRow((i - 1) * offset + 18);
-                    cell = row.CreateCell(j + 2);
-                    cell.CellStyle = styleKey;
 
                     row = sheet.GetRow((i - 1) * offset + 19);
                     cell = row.CreateCell(j + 2);
@@ -1570,21 +1664,24 @@ namespace Foundation
 
                     row = sheet.GetRow((i - 1) * offset + 23);
                     cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleCul;
+
+                    row = sheet.GetRow((i - 1) * offset + 24);
+                    cell = row.CreateCell(j + 2);
+                    cell.CellStyle = styleKey;
+
+                    row = sheet.GetRow((i - 1) * offset + 25);
+                    cell = row.CreateCell(j + 2);
                     cell.CellStyle = styleHeader;
-
-
-
                 }
+
+
 
                 for (int j = (i - 1) * offset + 4; j <= (i - 1) * offset + 11; j++)
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
-                for (int j = (i - 1) * offset + 13; j <= (i - 1) * offset + 16; j++)
-                {
-                    sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
-                }
-                for (int j = (i - 1) * offset + 18; j <= (i - 1) * offset + 18; j++)
+                for (int j = (i - 1) * offset + 13; j <= (i - 1) * offset + 18; j++)
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
@@ -1592,7 +1689,11 @@ namespace Foundation
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
-                for (int j = (i - 1) * offset + 22; j <= (i - 1) * offset + 23; j++)
+                for (int j = (i - 1) * offset + 22; j <= (i - 1) * offset + 22; j++)
+                {
+                    sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
+                }
+                for (int j = (i - 1) * offset + 24; j <= (i - 1) * offset + 25; j++)
                 {
                     sheet.GetRow(j).CreateCell(1).CellStyle = styleHeader;
                 }
@@ -1601,12 +1702,12 @@ namespace Foundation
 
 
 
-                IRow ir = sheet.GetRow((i - 1) * offset + 24);
+                IRow ir = sheet.GetRow((i - 1) * offset + 26);
                 ICell ic = ir.CreateCell(1);
                 ic.CellStyle = styleBold;
                 ic.SetCellValue("注：1、指南：重点支持项目平均资助强度为XXX万元/项；培育项目平均资助强度为XX万元/项。");
 
-                ir = sheet.GetRow((i - 1) * offset + 25);
+                ir = sheet.GetRow((i - 1) * offset + 27);
                 ic = ir.CreateCell(1);
                 ic.CellStyle = styleKeyRed;
                 ic.SetCellValue("2、考虑：培育：" + ((DetailRecParam)oneResult[0]).RecParam.CulInten.ToString() +
@@ -1614,14 +1715,14 @@ namespace Foundation
                      ((DetailRecParam)oneResult[0]).RecParam.RemMoney.ToString() + "万元");
 
                 // 下方说明1
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 24, (i - 1) * offset + 24, 1, 4));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 26, (i - 1) * offset + 26, 1, 4));
                 // 下方说明2
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 25, (i - 1) * offset + 25, 1, 4));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 27, (i - 1) * offset + 27, 1, 4));
 
                 // 受理申请
                 sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 3, (i - 1) * offset + 11, 1, 1));
                 // 办公室
-                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 12, (i - 1) * offset + 16, 1, 1));
+                sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 12, (i - 1) * offset + 18, 1, 1));
                 // 申请科学部
                 sheet.AddMergedRegion(new CellRangeAddress((i - 1) * offset + 2, (i - 1) * offset + 2, 1, 2));
                 // 抬头
@@ -1864,8 +1965,87 @@ namespace Foundation
 
         private void lstShowRst_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DisplayDetailsLst((ArrayList)resultArray[lstShowRst.SelectedIndex]);
-            UpdateMainRecParam((ArrayList)resultArray[lstShowRst.SelectedIndex]);
+            if (lstShowRst.SelectedItems.Count > 0)
+            {
+                DisplayDetailsLst((ArrayList)resultArray[lstShowRst.SelectedIndex]);
+                UpdateMainRecParam((ArrayList)resultArray[lstShowRst.SelectedIndex]);
+            }
+        }
+
+
+        IList<Depname> depNamesArr = new List<Depname>();
+        IList<Depname> fieldNamesArr = new List<Depname>();
+
+        private void BtnInsertNames_Click(object sender, RoutedEventArgs e)
+        {
+            InitDepSelect();
+        }
+
+        private void InitDepSelect()
+        {
+            depNamesArr.Clear();
+            fieldNamesArr.Clear();
+
+            IWorkbook wk = null;
+            int offset = 3;
+            try
+            {
+                wk = new XSSFWorkbook(new FileStream("Deps.xls", FileMode.Open));
+
+
+                ISheet sheet = wk.GetSheetAt(0);
+
+                IRow row = sheet.GetRow(1);
+                int depCount = Convert.ToInt32(row.GetCell(0).ToString());
+                int fieldCount = Convert.ToInt32(row.GetCell(2).ToString());
+
+
+                for (int i = 0; i < depCount; ++i)
+                {
+                    row = sheet.GetRow(offset + i);
+                    depNamesArr.Add(new Depname() { ID = i, Name = row.GetCell(0).ToString() });
+                }
+                for (int i = 0; i < fieldCount; ++i)
+                {
+                    row = sheet.GetRow(offset + i);
+                    fieldNamesArr.Add(new Depname() { ID = i, Name = row.GetCell(2).ToString() });
+                }
+            }
+            catch (Exception ec)
+            {
+                Console.WriteLine(ec.Message);
+                MessageBox.Show(ec.Message);
+            }
+            ComboDepnameBind();
+        }
+
+        private void ComboDepnameBind()
+        {
+            if (RbField.IsChecked == true)
+                CombDepname.ItemsSource = fieldNamesArr;
+            else
+                CombDepname.ItemsSource = depNamesArr;
+            CombDepname.DisplayMemberPath = "Name";
+            CombDepname.SelectedValuePath = "ID";
+            CombDepname.SelectedValue = 0;
+        }
+
+        private void RbField_Click(object sender, RoutedEventArgs e)
+        {
+            ComboDepnameBind();
+        }
+
+        private void RbDep_Click(object sender, RoutedEventArgs e)
+        {
+            ComboDepnameBind();
+        }
+
+        private void CombDepname_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CombDepname.Items.Count > 0 && CombDepname.SelectedItem != null)
+            {
+                TbxDepName.Text = ((Depname)CombDepname.SelectedItem).Name;
+            }
         }
     }
 }
