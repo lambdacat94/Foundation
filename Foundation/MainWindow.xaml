@@ -114,11 +114,11 @@
                             <Label Content="本地优青：" HorizontalAlignment="Left" Margin="0.068,47.107,0,0" VerticalAlignment="Top"/>
                             <TextBox x:Name="TbxYoungIntenMin" HorizontalAlignment="Left" Margin="342.588,50.091,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" RenderTransformOrigin="-0.343,2.616" Height="22"/>
                             <Label Content="本地优青强度："  HorizontalAlignment="Left" Margin="243.588,47.107,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.458,2.17"/>
-                            <Label x:Name="LbKeyRateMin" Content="XX.XX%" HorizontalAlignment="Left" Margin="115.788,80.335,0,0" VerticalAlignment="Top" Width="53.692"/>
-                            <Label x:Name="LbCulRateMin" Content="XX.XX%" HorizontalAlignment="Left" Margin="115.788,111.895,0,0" VerticalAlignment="Top" Width="53.692"/>
-                            <Label x:Name="LbKeyRateMax" Content="XX.XX%" HorizontalAlignment="Left" Margin="215.476,80.335,0,0" VerticalAlignment="Top" Width="52.112"/>
-                            <Label x:Name="LbCulRateMax" Content="XX.XX%" HorizontalAlignment="Left" Margin="215.476,111.895,0,0" VerticalAlignment="Top" Width="52.112"/>
-                            <Label x:Name="LbYRate" Content="XX.XX%" HorizontalAlignment="Left" Margin="181.561,50.091,0,0" VerticalAlignment="Top" Width="55.065"/>
+                            <Label x:Name="LbKeyRateMin" Content="" HorizontalAlignment="Left" Margin="115.788,80.335,0,0" VerticalAlignment="Top" Width="53.692"/>
+                            <Label x:Name="LbCulRateMin" Content="" HorizontalAlignment="Left" Margin="115.788,111.895,0,0" VerticalAlignment="Top" Width="53.692"/>
+                            <Label x:Name="LbKeyRateMax" Content="" HorizontalAlignment="Left" Margin="215.476,80.335,0,0" VerticalAlignment="Top" Width="52.112"/>
+                            <Label x:Name="LbCulRateMax" Content="" HorizontalAlignment="Left" Margin="215.476,111.895,0,0" VerticalAlignment="Top" Width="52.112"/>
+                            <Label x:Name="LbYRate" Content="" HorizontalAlignment="Left" Margin="181.561,50.091,0,0" VerticalAlignment="Top" Width="55.065"/>
                         </Grid>
                     </GroupBox>
 
@@ -148,13 +148,13 @@
                             <GridView>
                                 <GridViewColumn Header="学部名称" Width="80" DisplayMemberBinding="{Binding DepartmentName}" />
                                 <GridViewColumn Header="培育受理" Width="60" DisplayMemberBinding="{Binding CulAcceptCount}"/>
-                                <GridViewColumn Header="培育占比" Width="60" DisplayMemberBinding="{Binding CulRate}"/>
-                                <GridViewColumn Header="培育资助率" Width="80" DisplayMemberBinding="{Binding CulFundingRate}" />
+                                <GridViewColumn Header="培育占比" Width="60" DisplayMemberBinding="{Binding CulRate,StringFormat={}{0:P1}}"/>
+                                <GridViewColumn Header="培育资助率" Width="80" DisplayMemberBinding="{Binding CulFundingRate,StringFormat={}{0:P1}}" />
                                 <GridViewColumn Header="重点受理" Width="60" DisplayMemberBinding="{Binding KeyAcceptCount}"/>
-                                <GridViewColumn Header="重点占比" Width="60" DisplayMemberBinding="{Binding KeyRate}"/>
-                                <GridViewColumn Header="重点资助率" Width="80" DisplayMemberBinding="{Binding KeyFundingRate}" />
+                                <GridViewColumn Header="重点占比" Width="60" DisplayMemberBinding="{Binding KeyRate,StringFormat={}{0:P1}}"/>
+                                <GridViewColumn Header="重点资助率" Width="80" DisplayMemberBinding="{Binding KeyFundingRate,StringFormat={}{0:P1}}" />
                                 <GridViewColumn Header="本地优青受理" Width="85" DisplayMemberBinding="{Binding YoungAcceptCount}" />
-                                <GridViewColumn Header="本地优青资助率" Width="100" DisplayMemberBinding="{Binding YoungFundingRate}" />
+                                <GridViewColumn Header="本地优青资助率" Width="100" DisplayMemberBinding="{Binding YoungFundingRate,StringFormat={}{0:P1}}" />
                                 <GridViewColumn Header="培育(计算)" Width="65" DisplayMemberBinding="{Binding CulCaled}"/>
                                 <GridViewColumn Header="培育(取整)" Width="65" DisplayMemberBinding="{Binding CulRound}"/>
                                 <GridViewColumn Header="重点(计算)" Width="65" DisplayMemberBinding="{Binding KeyCaled}"/>
