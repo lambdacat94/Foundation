@@ -70,12 +70,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AdjParameter.cs" />
+    <Compile Include="AllocItem.cs" />
     <Compile Include="Calculator.cs" />
+    <Compile Include="ConAllocation.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Depname.cs" />
     <Compile Include="DetailRecParam.cs" />
     <Compile Include="INIFile.cs" />
     <Compile Include="InitParameters.cs" />
+    <Compile Include="ItemDetails.cs" />
     <Compile Include="Level2Aux.cs" />
     <Compile Include="RecParamArray.cs" />
     <Compile Include="RecParameter.cs" />

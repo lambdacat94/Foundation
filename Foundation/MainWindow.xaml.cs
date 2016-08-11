@@ -42,6 +42,7 @@ namespace Foundation
             //LstShowDeps.DataContext = initParam.GetDataBanding();
             LstShowDeps.ItemsSource = initParam.GetDataBanding();
             LstShowDetails.DataContext = calculator.GetUltimateArrayRef();
+            
 
             isAlter = false;
 
@@ -2046,6 +2047,51 @@ namespace Foundation
             {
                 TbxDepName.Text = ((Depname)CombDepname.SelectedItem).Name;
             }
+        }
+
+
+        private ConAllocation conAll = null;
+        private void BtnAllocSelectFile_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Title = "打开文件";
+            ofd.Filter = "xlsx文件|*.xlsx|xls文件|*.xls|所有文件|*.*";
+            ofd.FileName = string.Empty;
+            ofd.ShowDialog();
+            TbxAllocSelectFile.Text = ofd.FileName;
+            TbxSheetNum.Text = "3";
+            if (TbxAllocSelectFile.Text != "" && IsNumber(TbxSheetNum.Text))
+            {
+                // MessageBox.Show(TbxAllocSelectFile.Text);
+                conAll = new ConAllocation(ofd.FileName, Convert.ToInt32(TbxSheetNum.Text));
+            }
+        }
+
+        // 展示在第三页列表的数据绑定项目
+        AllocItem ShowItems;
+        private void BtnAllocCalculate_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsNumber(TbxAllocInner.Text) || !IsNumber(TbxAllocOutter.Text) || !IsNumber(TbxAllocTotals.Text)) return;
+            double inner = Convert.ToDouble(TbxAllocInner.Text);
+            double outter = Convert.ToDouble(TbxAllocOutter.Text);
+            double total = Convert.ToDouble(TbxAllocTotals.Text);
+
+            if (conAll != null)
+            {
+                if (inner != 0.0 && outter != 0.0 && total != 0.0)
+                {
+                    conAll.ReadFromInterface(total, inner, outter);
+                    ShowItems = conAll.ReadFromExcel();
+
+                }
+                else
+                {
+                    MessageBox.Show("委内委外需要填入数值");
+                }
+
+            }
+            LstShowAllocation.Items.Refresh();
+            LstShowAllocation.ItemsSource = ShowItems.arr;
         }
     }
 }
