@@ -255,8 +255,71 @@ namespace Foundation
 
 
 
-        // 将结果显示到界面的表格中
-        
+        // 结果写回到 Excel 文件中
+        public void WriteToExcel(string fileName)
+        {
+            if (sh != null && wbk != null)
+            {
+                IRow row = null;
+                ICell cell = null;
+                // 将重点写回文件
+                for (int i = keyStartRow; i <= keyEndRow; ++i)
+                {
+                    row = sh.GetRow(i);
+                    cell = row.GetCell(8);
+                    cell.SetCellValue(((ItemDetails)keyItem.arr[i - keyStartRow]).Outter.ToString());
+                    // MessageBox.Show(((ItemDetails)keyItem.arr[i - keyStartRow]).Outter.ToString());
+                    // MessageBox.Show(cell.ToString() + "  " + (cell == null).ToString());
+                    
+                }
+
+                for (int i = keyStartRow; i <= keyEndRow; ++i)
+                {
+                    row = sh.GetRow(i);
+                    cell = row.GetCell(7);
+                    cell.SetCellValue(((ItemDetails)keyItem.arr[i - keyStartRow]).Inner.ToString());
+                }
+
+                row = sh.GetRow(keyEndRow + 1);
+                cell = row.GetCell(8);
+                cell.SetCellValue(keyItem.inner.ToString());
+
+                cell = row.GetCell(7);
+                cell.SetCellValue(keyItem.outter.ToString());
+
+                // 将培育写回文件
+                for (int i = culStartRow; i <= culEndRow; ++i)
+                {
+                    row = sh.GetRow(i);
+                    cell = row.GetCell(8);
+                    cell.SetCellValue(((ItemDetails)culItem.arr[i - culStartRow]).Outter.ToString());
+
+                    
+                }
+                for (int i = culStartRow; i <= culEndRow; ++i)
+                {
+                    row = sh.GetRow(i);
+                    cell = row.GetCell(7);
+                    cell.SetCellValue(((ItemDetails)culItem.arr[i - culStartRow]).Inner.ToString());
+                }
+
+
+                row = sh.GetRow(culEndRow + 1);
+                cell = row.GetCell(8);
+                cell.SetCellValue(culItem.inner.ToString());
+
+                cell = row.GetCell(7);
+                cell.SetCellValue(culItem.outter.ToString());
+
+
+                using (FileStream fs = File.Open(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    wbk.Write(fs);
+                    fs.Close();
+                }
+
+            }
+        }
         
 
         private AllocItem keyItem;

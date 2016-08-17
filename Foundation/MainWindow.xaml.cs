@@ -2093,5 +2093,13 @@ namespace Foundation
             LstShowAllocation.Items.Refresh();
             LstShowAllocation.ItemsSource = ShowItems.arr;
         }
+
+        private void BtnWrite2Excel_Click(object sender, RoutedEventArgs e)
+        {
+            if (conAll != null && (ShowItems.arr != null)) {
+                conAll.WriteToExcel(TbxAllocSelectFile.Text);
+                MessageBox.Show("写回文件成功");
+            }
+        }
     }
 }
