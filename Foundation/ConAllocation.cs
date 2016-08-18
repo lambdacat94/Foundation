@@ -114,6 +114,8 @@ namespace Foundation
                 inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                 outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
 
+                // 最后添加一个计算得到的最终理论值，但这个理论值由于四舍五入的存在导致
+                // 最终结果不对，需要重新平衡
                 keyItem.arr.Add(new ItemDetails()
                 {
                     Field = "",
@@ -253,7 +255,11 @@ namespace Foundation
             */
         }
 
-
+        // 获取舍入与计算时  委内  的差值
+        public int GetDiffs()
+        {
+            return 0;
+        }
 
         // 结果写回到 Excel 文件中
         public void WriteToExcel(string fileName)

@@ -392,6 +392,29 @@ namespace Foundation
 
             }
         }
+
+        // 重点最小舍入优先排序规则对象
+        // 把方案 x 和方案 y 的每一个重点舍入绝对值相加，总数最小的优先
+        private class SortByMinRound : System.Collections.IComparer
+        {
+            public int Compare(Object x, Object y)
+            {
+                // round1 为 x 中每个重点舍入绝对值之和，round2 为 y 中每个重点舍入绝对值之和
+                double round1 = 0.0, round2 = 0.0;
+                ArrayList obx = (ArrayList)x, oby = (ArrayList)y;
+                DetailRecParam det1, det2;
+                for (int i = 0; i < obx.Count; i++)
+                {
+                    // 获取 DetailRecParam 对象
+                    det1 = (DetailRecParam)obx[i]; det2 = (DetailRecParam)oby[i];
+                    round1 += Math.Abs(det1.KeyRound - det1.KeyCaled);
+                    round2 += Math.Abs(det2.KeyRound - det2.KeyCaled);
+                }
+
+                return (int)((round1 - round2) * 10);
+            }
+        }
+
         // 排序规则对象 End
 
 
@@ -491,13 +514,15 @@ namespace Foundation
 
                 Calculator.Idx = 0;
                 //LbNoResult.Visibility = Visibility.Collapsed;
-                
+
                 if (CbRemMoney.IsChecked == true)
                     calculator.SortUltimateRecArray(new SortByRemMoney());
                 else if (CbKeyInten.IsChecked == true)
                     calculator.SortUltimateRecArray(new SortByKeyIntensity());
                 else if (CbKeyRate.IsChecked == true)
                     calculator.SortUltimateRecArray(new SortByKeyRate());
+                else if (CbMinRound.IsChecked == true)
+                    calculator.SortUltimateRecArray(new SortByMinRound());
 
                 if (((ArrayList)calculator.GetUltimateArrayRef()).Count != 0)
                 {
@@ -2092,14 +2117,30 @@ namespace Foundation
             }
             LstShowAllocation.Items.Refresh();
             LstShowAllocation.ItemsSource = ShowItems.arr;
+
         }
 
+
+        // 写回 Excel 文件中，但其他机器上实测出现无法写回的问题，待解决
         private void BtnWrite2Excel_Click(object sender, RoutedEventArgs e)
         {
             if (conAll != null && (ShowItems.arr != null)) {
                 conAll.WriteToExcel(TbxAllocSelectFile.Text);
                 MessageBox.Show("写回文件成功");
             }
+        }
+
+        private void CbMinRound_Click(object sender, RoutedEventArgs e)
+        {
+            BtnCalculate_Click(sender, e);
+        }
+
+        // 记录最后一次被 check 的编号
+        private int lastChecked = 0;
+        // 第三页中 Listview 上的 checked 事件
+        private void CbxInOutDiff_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -218,9 +218,9 @@ namespace Foundation
             }
         }
 
+        // 第二层筛选函数，返回一个筛选后解集的大小
         private int ReduceLevel2()
         {
-            
             rst = new ArrayList();
             for (int i = 0; i < ultimateRecArray.Count; i++)
             {
@@ -308,6 +308,30 @@ namespace Foundation
             }
         }
 
+        // 重点最小舍入优先排序规则对象
+        // 把方案 x 和方案 y 的每一个重点舍入绝对值相加，总数最小的优先
+        private class SortByMinRound : System.Collections.IComparer
+        {
+            public int Compare(Object x, Object y)
+            {
+                // round1 为 x 中每个重点舍入绝对值之和，round2 为 y 中每个重点舍入绝对值之和
+                double round1 = 0.0, round2 = 0.0;
+                ArrayList obx = (ArrayList)x, oby = (ArrayList)y;
+                DetailRecParam det1, det2;
+                for (int i = 0; i < obx.Count; i++)
+                {
+                    // 获取 DetailRecParam 对象
+                    det1 = (DetailRecParam)obx[i]; det2 = (DetailRecParam)oby[i];
+                    round1 += Math.Abs(det1.KeyRound - det1.KeyCaled);
+                    round2 += Math.Abs(det2.KeyRound - det2.KeyCaled);
+                }
+
+                return (int)((round1 - round2) * 10);
+            }
+        }
+
+
+
         private int  ReduceLevel4()
         {
             SortByKeyCul sbkc = new SortByKeyCul();
@@ -385,6 +409,13 @@ namespace Foundation
             // MessageBox.Show(rd2.ToString());
             // MessageBox.Show(rd3.ToString());
 
+            arrLevel1Aux.Sort(new SortByMinRound());
+            arrLevel2Aux.Sort(new SortByMinRound());
+            arrLevel3Aux.Sort(new SortByMinRound());
+
+            // MessageBox.Show(rd2.ToString() + "    " + rd3.ToString());
+
+            // 此处的两个判断均是防止结果太少而准备的向结果中添加已经删除的解以适当增加解的个数
             if (rd2 == 0)
             {
                 for (int i = 0; i < arrLevel2Aux.Count; i++)
@@ -426,7 +457,14 @@ namespace Foundation
                         break;
                 }
             }
-            
+            else
+            {
+                for (int i = 0; i < 3 && i < arrLevel3Aux.Count && i < arrLevel2Aux.Count; ++i)
+                {
+                    ultimateRecArray.Add(arrLevel2Aux[i]);
+                    ultimateRecArray.Add(arrLevel3Aux[i]);
+                }
+            }
             //else if (rd4 == 0)
                 //ultimateRecArray = arrLevel4Aux;
 
