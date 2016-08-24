@@ -2118,6 +2118,7 @@ namespace Foundation
             LstShowAllocation.Items.Refresh();
             LstShowAllocation.ItemsSource = ShowItems.arr;
 
+            conAll.ComputeDiffs();
         }
 
 
@@ -2140,7 +2141,13 @@ namespace Foundation
         // 第三页中 Listview 上的 checked 事件
         private void CbxInOutDiff_Checked(object sender, RoutedEventArgs e)
         {
+            CheckBox cb = sender as CheckBox;
+            
+            int idx = Convert.ToInt32(cb);
+            MessageBox.Show(idx.ToString());
+            conAll.DoChecked(idx);
 
+            LstShowAllocation.Items.Refresh();
         }
     }
 }

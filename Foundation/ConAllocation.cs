@@ -40,6 +40,42 @@ namespace Foundation
             }
         }
 
+
+        public void DoChecked(int index)
+        {
+            ((ItemDetails)keyItem.arr[index]).Inner--;
+        }
+
+        public void DoUnchecked()
+        {
+
+        }
+
+
+        // 委内中加和值和应有值的差
+        private int keyInDiff = 0;
+        private int culInDiff = 0;
+        
+        // 计算重点项目分配的加和与应有值的差
+        public void ComputeDiffs()
+        {
+            if (keyItem != null)
+            {
+                keyInDiff = (int)(((ItemDetails)keyItem.arr[keyItem.arr.Count - 1]).Inner - keyItem.inner);
+            }
+
+            if (culItem != null)
+            {
+                culInDiff = (int)(((ItemDetails)culItem.arr[culItem.arr.Count - 1]).Inner - culItem.inner);
+            }
+
+            MessageBox.Show(keyInDiff.ToString() + "  " + culInDiff.ToString());
+        }
+
+
+
+
+
         // 从界面中读取总额、委内、委外的参数
         public void ReadFromInterface(double totals, double inner, double outter)
         {
