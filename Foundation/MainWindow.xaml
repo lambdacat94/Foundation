@@ -221,11 +221,11 @@
                     <Label x:Name="LbAllocTotals" Content="总金额" HorizontalAlignment="Left" Margin="87.92,63,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="TbxAllocTotals" HorizontalAlignment="Left" Height="23" Margin="159.92,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
                     <Label x:Name="LbAllocOutter" Content="委外" HorizontalAlignment="Left" Margin="375.92,63,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TbxAllocOutter" HorizontalAlignment="Left" Height="23" Margin="447.92,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="TbxAllocOutter" HorizontalAlignment="Left" Height="23" Margin="447.92,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="TbxAllocOutter_TextChanged"/>
                     <Label x:Name="LbAllocInner" Content="委内" HorizontalAlignment="Left" Margin="680.42,63,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TbxAllocInner" HorizontalAlignment="Left" Height="23" Margin="752.42,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="TbxAllocInner" HorizontalAlignment="Left" Height="23" Margin="752.42,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="TbxAllocInner_TextChanged"/>
                     <Button x:Name="BtnAllocCalculate" Content="计算" HorizontalAlignment="Left" Margin="910.074,63,0,0" VerticalAlignment="Top" Width="75" Height="25.24" Click="BtnAllocCalculate_Click"/>
-                    <ListView x:Name="LstShowAllocation" HorizontalAlignment="Left" Height="543.553" Margin="50.42,141,0,-2" VerticalAlignment="Top" Width="1117.5">
+                    <ListView x:Name="LstShowAllocation" HorizontalAlignment="Left" Height="543.553" Margin="50.42,141,0,-2" VerticalAlignment="Top" Width="1117.5" MouseDoubleClick="LstShowAllocation_MouseDoubleClick">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="Height" Value="20" />

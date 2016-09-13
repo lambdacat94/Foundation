@@ -2119,6 +2119,12 @@ namespace Foundation
             LstShowAllocation.ItemsSource = ShowItems.arr;
 
             conAll.ComputeDiffs();
+
+            // 
+            ifChecked = new bool[LstShowAllocation.Items.Count + 10];
+
+            LbKeyInDiff.Content = conAll.GetCurKeyInDiff();
+            LbCulInDiff.Content = conAll.GetCurCulInDiff();
         }
 
 
@@ -2149,5 +2155,55 @@ namespace Foundation
 
             LstShowAllocation.Items.Refresh();
         }
+
+        // Storage the checked and unchecked
+        private bool[] ifChecked;
+
+        private void LstShowAllocation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Test get index of selected item... OK
+            // MessageBox.Show(LstShowAllocation.SelectedIndex.ToString());
+            int checkIndex = LstShowAllocation.SelectedIndex;
+
+            // If index is not indicate sums, go, or return 
+            if (!conAll.IndexAvailable(checkIndex))
+                return;
+
+            if (ifChecked[checkIndex] == false)
+            {
+                conAll.DoChecked(checkIndex);
+                ifChecked[checkIndex] = true;
+                // MessageBox.Show("Checked!");
+            }
+
+            else if (ifChecked[checkIndex] == true)
+            {
+                conAll.DoUnchecked(checkIndex);
+                ifChecked[checkIndex] = false;
+                // MessageBox.Show("Unchecked!");
+            }
+
+            LstShowAllocation.Items.Refresh();
+            // Refresh realtime data 
+            LbKeyInDiff.Content = conAll.GetCurKeyInDiff();
+            LbCulInDiff.Content = conAll.GetCurCulInDiff();
+        }
+
+        // Outter text changed 
+        private void TbxAllocOutter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // 
+            if (!IsNumber(TbxAllocTotals.Text) || !IsNumber(TbxAllocOutter.Text)) return;
+            TbxAllocInner.Text = (Convert.ToInt32(TbxAllocTotals.Text) - Convert.ToInt32(TbxAllocOutter.Text)).ToString();
+        }
+
+        // Inner text changed 
+        private void TbxAllocInner_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // totals or outter is null or non-number
+            if (!IsNumber(TbxAllocTotals.Text) || !IsNumber(TbxAllocInner.Text)) return;
+            TbxAllocOutter.Text = (Convert.ToInt32(TbxAllocTotals.Text) - Convert.ToInt32(TbxAllocInner.Text)).ToString();
+        }
+
     }
 }

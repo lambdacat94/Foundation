@@ -16,6 +16,13 @@ namespace Foundation
 {
     public class ConAllocation
     {
+        // Test if the index is available
+        public bool IndexAvailable(int index)
+        {
+            if (index == keyItem.arr.Count - 1 || index == culItem.arr.Count + keyItem.arr.Count - 1)
+                return false;
+            return true;
+        }
 
         // 带参数的构造函数，打开资源
         public ConAllocation(string fileName, int sheetID)
@@ -41,14 +48,151 @@ namespace Foundation
         }
 
 
-        public void DoChecked(int index)
+        private int curKeyInDiff = 0;
+        private int curCulInDiff = 0;
+
+        public string GetCurKeyInDiff()
         {
-            ((ItemDetails)keyItem.arr[index]).Inner--;
+            return "重点委内待修正：" + curKeyInDiff.ToString();
         }
 
-        public void DoUnchecked()
+        public string GetCurCulInDiff()
         {
+            return "培育委内待修正：" + curCulInDiff.ToString();
+        }
 
+        // Last changed item
+        private int lastKeyChangedIndex = -1;
+        private int lastCulChangedIndex = -1;
+
+        // Indicate the third page's listview double click while the item has not been checked...
+        public void DoChecked(int index)
+        {
+            // Do key checked 
+            if (index < keyItem.arr.Count)
+            {
+
+                // While the calculated value is less than sum
+                if (curKeyInDiff < 0)
+                {
+                    // balance them
+                    ((ItemDetails)keyItem.arr[index]).Inner--;
+                    ((ItemDetails)keyItem.arr[index]).Outter++;
+                    curKeyInDiff++;
+                }
+                else if (curKeyInDiff > 0)
+                {
+                    ((ItemDetails)keyItem.arr[index]).Inner++;
+                    ((ItemDetails)keyItem.arr[index]).Outter--;
+                    curKeyInDiff--;
+                }
+                // the diff is 0 and should get the last changed key item
+                else
+                {
+                    if (keyInDiff < 0)
+                    {
+                        ((ItemDetails)keyItem.arr[index]).Inner--;
+                        ((ItemDetails)keyItem.arr[index]).Outter++;
+                        // the last changed 
+                        ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Inner++;
+                        ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Outter--;
+                    }
+                    else if (keyInDiff > 0)
+                    {
+                        ((ItemDetails)keyItem.arr[index]).Inner++;
+                        ((ItemDetails)keyItem.arr[index]).Outter--;
+                        // the last changed 
+                        ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Inner--;
+                        ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Outter++;
+                    }
+                }
+                lastKeyChangedIndex = index;
+            }
+            // Do cul checked 
+            else
+            {
+                // Get the relative index of culItem.arr 
+                int culIdx = index - keyItem.arr.Count;
+
+                if (curCulInDiff < 0)
+                {    
+                    // balance them
+                    ((ItemDetails)culItem.arr[culIdx]).Inner--;
+                    ((ItemDetails)culItem.arr[culIdx]).Outter++;
+                    curCulInDiff++;
+                }
+                else if (curCulInDiff > 0)
+                {
+                    ((ItemDetails)culItem.arr[culIdx]).Inner++;
+                    ((ItemDetails)culItem.arr[culIdx]).Outter--;
+                    curCulInDiff--;
+                }
+                // the diff is 0
+                else
+                {
+                    if (culInDiff < 0)
+                    {
+                        ((ItemDetails)culItem.arr[culIdx]).Inner--;
+                        ((ItemDetails)culItem.arr[culIdx]).Outter++;
+                        // the last changed 
+                        ((ItemDetails)culItem.arr[lastCulChangedIndex]).Inner++;
+                        ((ItemDetails)culItem.arr[lastCulChangedIndex]).Outter--;
+                    }
+                    else if (culInDiff > 0)
+                    {
+                        ((ItemDetails)culItem.arr[culIdx]).Inner--;
+                        ((ItemDetails)culItem.arr[culIdx]).Outter++;
+                        // the last changed 
+                        ((ItemDetails)culItem.arr[lastCulChangedIndex]).Inner++;
+                        ((ItemDetails)culItem.arr[lastCulChangedIndex]).Outter--;
+                    }
+                }
+                lastCulChangedIndex = culIdx;
+            }
+        }
+
+
+        // Indicate the third page's listview double click while the items has been checked and then unchecked...
+        public void DoUnchecked(int index)
+        {
+            // Do key unchecked
+            if (index < keyItem.arr.Count)
+            {
+                // While the calculated value is less than sum
+                if (curKeyInDiff < 0)
+                {
+                    // balance them
+                    ((ItemDetails)keyItem.arr[index]).Inner++;
+                    ((ItemDetails)keyItem.arr[index]).Outter--;
+                    curKeyInDiff--;
+                }
+                else if (curKeyInDiff > 0)
+                {
+                    ((ItemDetails)keyItem.arr[index]).Inner--;
+                    ((ItemDetails)keyItem.arr[index]).Outter++;
+                    curKeyInDiff++;
+                }
+            }
+            // Do cul unchecked
+            else
+            {
+                // Get the relative index of culItem.arr 
+                int culIdx = index - keyItem.arr.Count;
+
+                if (curCulInDiff < 0)
+                {
+                    // balance them
+                    ((ItemDetails)culItem.arr[culIdx]).Inner++;
+                    ((ItemDetails)culItem.arr[culIdx]).Outter--;
+                    curCulInDiff--;
+                }
+                else if (curCulInDiff > 0)
+                {
+                    ((ItemDetails)culItem.arr[culIdx]).Inner--;
+                    ((ItemDetails)culItem.arr[culIdx]).Outter++;
+                    curCulInDiff++;
+                }
+            }
         }
 
 
@@ -62,11 +206,13 @@ namespace Foundation
             if (keyItem != null)
             {
                 keyInDiff = (int)(((ItemDetails)keyItem.arr[keyItem.arr.Count - 1]).Inner - keyItem.inner);
+                curKeyInDiff = keyInDiff;
             }
 
             if (culItem != null)
             {
                 culInDiff = (int)(((ItemDetails)culItem.arr[culItem.arr.Count - 1]).Inner - culItem.inner);
+                curCulInDiff = culInDiff;
             }
 
             MessageBox.Show(keyInDiff.ToString() + "  " + culInDiff.ToString());
