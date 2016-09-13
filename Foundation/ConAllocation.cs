@@ -71,19 +71,21 @@ namespace Foundation
             // Do key checked 
             if (index < keyItem.arr.Count)
             {
-
+                ((ItemDetails)keyItem.arr[index]).Checked = true;
                 // While the calculated value is less than sum
                 if (curKeyInDiff < 0)
                 {
                     // balance them
                     ((ItemDetails)keyItem.arr[index]).Inner--;
                     ((ItemDetails)keyItem.arr[index]).Outter++;
+                    
                     curKeyInDiff++;
                 }
                 else if (curKeyInDiff > 0)
                 {
                     ((ItemDetails)keyItem.arr[index]).Inner++;
                     ((ItemDetails)keyItem.arr[index]).Outter--;
+                    
                     curKeyInDiff--;
                 }
                 // the diff is 0 and should get the last changed key item
@@ -96,6 +98,7 @@ namespace Foundation
                         // the last changed 
                         ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Inner++;
                         ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Outter--;
+                        
                     }
                     else if (keyInDiff > 0)
                     {
@@ -104,6 +107,7 @@ namespace Foundation
                         // the last changed 
                         ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Inner--;
                         ((ItemDetails)keyItem.arr[lastKeyChangedIndex]).Outter++;
+                        
                     }
                 }
                 lastKeyChangedIndex = index;
@@ -113,7 +117,7 @@ namespace Foundation
             {
                 // Get the relative index of culItem.arr 
                 int culIdx = index - keyItem.arr.Count;
-
+                ((ItemDetails)culItem.arr[culIdx]).Checked = true;
                 if (curCulInDiff < 0)
                 {    
                     // balance them
@@ -159,17 +163,20 @@ namespace Foundation
             if (index < keyItem.arr.Count)
             {
                 // While the calculated value is less than sum
+                ((ItemDetails)keyItem.arr[index]).Checked = false;
                 if (curKeyInDiff < 0)
                 {
                     // balance them
                     ((ItemDetails)keyItem.arr[index]).Inner++;
                     ((ItemDetails)keyItem.arr[index]).Outter--;
+                    
                     curKeyInDiff--;
                 }
                 else if (curKeyInDiff > 0)
                 {
                     ((ItemDetails)keyItem.arr[index]).Inner--;
                     ((ItemDetails)keyItem.arr[index]).Outter++;
+                    
                     curKeyInDiff++;
                 }
             }
@@ -178,18 +185,20 @@ namespace Foundation
             {
                 // Get the relative index of culItem.arr 
                 int culIdx = index - keyItem.arr.Count;
-
+                ((ItemDetails)culItem.arr[culIdx]).Checked = false;
                 if (curCulInDiff < 0)
                 {
                     // balance them
                     ((ItemDetails)culItem.arr[culIdx]).Inner++;
                     ((ItemDetails)culItem.arr[culIdx]).Outter--;
+                    
                     curCulInDiff--;
                 }
                 else if (curCulInDiff > 0)
                 {
                     ((ItemDetails)culItem.arr[culIdx]).Inner--;
                     ((ItemDetails)culItem.arr[culIdx]).Outter++;
+                    
                     curCulInDiff++;
                 }
             }
@@ -215,7 +224,7 @@ namespace Foundation
                 curCulInDiff = culInDiff;
             }
 
-            MessageBox.Show(keyInDiff.ToString() + "  " + culInDiff.ToString());
+            // MessageBox.Show(keyInDiff.ToString() + "  " + culInDiff.ToString());
         }
 
 

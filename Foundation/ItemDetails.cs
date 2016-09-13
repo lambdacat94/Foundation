@@ -18,6 +18,8 @@ namespace Foundation
         // 委内
         public double Inner { get; set; }
         // 委外
-        public double Outter { get; set; }   
+        public double Outter { get; set; }
+
+        public bool Checked { get; set; }
     }
 }

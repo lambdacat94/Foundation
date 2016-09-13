@@ -242,7 +242,7 @@
                                 <GridViewColumn Header="小计" Width="80" DisplayMemberBinding="{Binding Total}" />
                                 <GridViewColumn Header="委内" Width="80" DisplayMemberBinding="{Binding Inner}" />
                                 <GridViewColumn Header="委外" Width="80" DisplayMemberBinding="{Binding Outter}" />
-                                <GridViewColumn Header="选中" Width="70" >
+                                <GridViewColumn Header="选中" Width="70" DisplayMemberBinding="{Binding Checked}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox x:Name="CbxInOutDiff" Checked="CbxInOutDiff_Checked">
@@ -255,9 +255,8 @@
                         </ListView.View>
                     </ListView>
                     <TextBox x:Name="TbxSheetNum" HorizontalAlignment="Left" Height="23" Margin="1040.42,12.13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="40.5"/>
-                    <Button x:Name="BtnWrite2Excel" Content="写回文件" HorizontalAlignment="Left" Margin="1091.004,64.995,0,0" VerticalAlignment="Top" Width="75" Click="BtnWrite2Excel_Click"/>
+                    <Button x:Name="BtnWrite2Excel" Content="写回文件" HorizontalAlignment="Left" Margin="1035.106,64.995,0,0" VerticalAlignment="Top" Width="75" Click="BtnWrite2Excel_Click"/>
                     <Label x:Name="LbKeyInDiff" Content="重点委内待修正：" HorizontalAlignment="Left" Margin="821.631,107.5,0,0" VerticalAlignment="Top"/>
-                    <Button x:Name="BtnCorrect" Content="确认修正" HorizontalAlignment="Left" Margin="1001.478,64.996,0,0" VerticalAlignment="Top" Width="75"/>
                     <Label x:Name="LbCulInDiff" Content="培育委内待修正：" HorizontalAlignment="Left" Margin="985.074,107.5,0,0" VerticalAlignment="Top"/>
 
                 </Grid>

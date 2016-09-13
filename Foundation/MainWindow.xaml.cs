@@ -2080,7 +2080,7 @@ namespace Foundation
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
             ofd.Title = "打开文件";
-            ofd.Filter = "xlsx文件|*.xlsx|xls文件|*.xls|所有文件|*.*";
+            ofd.Filter = "所有文件|*.*";
             ofd.FileName = string.Empty;
             ofd.ShowDialog();
             TbxAllocSelectFile.Text = ofd.FileName;
@@ -2168,12 +2168,13 @@ namespace Foundation
             // If index is not indicate sums, go, or return 
             if (!conAll.IndexAvailable(checkIndex))
                 return;
-
+             
             if (ifChecked[checkIndex] == false)
             {
                 conAll.DoChecked(checkIndex);
                 ifChecked[checkIndex] = true;
                 // MessageBox.Show("Checked!");
+                
             }
 
             else if (ifChecked[checkIndex] == true)
