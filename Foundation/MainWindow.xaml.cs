@@ -2123,8 +2123,8 @@ namespace Foundation
             // 
             ifChecked = new bool[LstShowAllocation.Items.Count + 10];
 
-            LbKeyInDiff.Content = conAll.GetCurKeyInDiff();
-            LbCulInDiff.Content = conAll.GetCurCulInDiff();
+            // LbKeyInDiff.Content = conAll.GetCurKeyInDiff();
+            // LbCulInDiff.Content = conAll.GetCurCulInDiff();
         }
 
 
@@ -2186,8 +2186,8 @@ namespace Foundation
 
             LstShowAllocation.Items.Refresh();
             // Refresh realtime data 
-            LbKeyInDiff.Content = conAll.GetCurKeyInDiff();
-            LbCulInDiff.Content = conAll.GetCurCulInDiff();
+            // LbKeyInDiff.Content = conAll.GetCurKeyInDiff();
+            // LbCulInDiff.Content = conAll.GetCurCulInDiff();
         }
 
         // Outter text changed 
@@ -2206,5 +2206,21 @@ namespace Foundation
             TbxAllocOutter.Text = (Convert.ToInt32(TbxAllocTotals.Text) - Convert.ToInt32(TbxAllocInner.Text)).ToString();
         }
 
+        // 第三页中的委内委外输入文本框按下回车即进行计算
+        private void TbxAllocOutter_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnAllocCalculate_Click(sender, e);
+            }
+        }
+
+        private void TbxAllocInner_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnAllocCalculate_Click(sender, e);
+            }
+        }
     }
 }

@@ -227,7 +227,14 @@ namespace Foundation
             // MessageBox.Show(keyInDiff.ToString() + "  " + culInDiff.ToString());
         }
 
+        /// <summary>
+        /// 所在模块：第三页“经费分配”
+        /// 描述：为第三页上的 ListView 列表的“合计”行上添加期望的合计值
+        /// </summary>
+        public void InsertSum()
+        {
 
+        }
 
 
 
@@ -280,7 +287,7 @@ namespace Foundation
                     total = Math.Round(Convert.ToDouble(row.GetCell(6).ToString()));
                     inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                     outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
-
+                    // 委内和委外的累计总额
                     innersum += inner;
                     outtersum += outter;
                     totsum += total;
@@ -300,23 +307,27 @@ namespace Foundation
                 }
 
                 row = sh.GetRow(keyEndRow + 1);
-                projName = row.GetCell(1).ToString();
+                unit = "";
                 total = totsum;
                 inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                 outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
-
+                projName = row.GetCell(1).ToString() + "==委内委外分配目标【【" + inner.ToString() + "】】【【" + outter.ToString() + "】】";
+                if (inner < innersum) unit += ("修正方向 ==>>    " + " 数量：" + Math.Abs(innersum - inner).ToString());
+                else if (inner > innersum) unit += ("修正方向 <<==    " + " 数量：" + Math.Abs(inner - innersum).ToString());
+                else unit += "无需修正";
                 // 最后添加一个计算得到的最终理论值，但这个理论值由于四舍五入的存在导致
                 // 最终结果不对，需要重新平衡
+                // 添加“合计”一行
                 keyItem.arr.Add(new ItemDetails()
                 {
-                    Field = "",
-                    Number = "",
-                    ProjectID = "",
+                    Field = "======",
+                    Number = "======",
+                    ProjectID = "=======",
                     ProjectName = projName,
-                    ProjectLeader = "",
-                    Inner = inner,
-                    Unit = "",
-                    Outter = outter,
+                    ProjectLeader = "=======",
+                    Inner = innersum,
+                    Unit = unit,
+                    Outter = outtersum,
                     Total = total
                 });
 
@@ -363,21 +374,25 @@ namespace Foundation
                 }
 
                 row = sh.GetRow(culEndRow + 1);
-                projName = row.GetCell(1).ToString();
+                unit = "";
                 total = totsum;
                 inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                 outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
-
+                projName = row.GetCell(1).ToString() + "==委内委外分配目标【【" + inner.ToString() + "】】【【" + outter.ToString() + "】】";
+                if (inner < innersum) unit += ("修正方向 ==>>    " + " 数量：" + Math.Abs(innersum - inner).ToString());
+                else if (inner > innersum) unit += ("修正方向 <<==    " + " 数量：" + Math.Abs(inner - innersum).ToString());
+                else unit += "无需修正";
+                // 添加“合计”一行
                 culItem.arr.Add(new ItemDetails()
                 {
-                    Field = "",
-                    Number = "",
-                    ProjectID = "",
+                    Field = "======",
+                    Number = "======",
+                    ProjectID = "=======",
                     ProjectName = projName,
-                    ProjectLeader = "",
-                    Inner = inner,
-                    Unit = "",
-                    Outter = outter,
+                    ProjectLeader = "=======",
+                    Inner = innersum,
+                    Unit = unit,
+                    Outter = outtersum,
                     Total = total
                 });
 
