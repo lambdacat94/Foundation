@@ -27,6 +27,9 @@ namespace Foundation
         // 带参数的构造函数，打开资源
         public ConAllocation(string fileName, int sheetID)
         {
+            // 初始化字段的列号为 -1
+            ndep = nnum = nprojID = nprojName = nleader = nunit = ntotal = noutter = ninner = -1;
+            doub = false;
             if (fileName == null) return;
             try
             {
@@ -250,9 +253,11 @@ namespace Foundation
         // excel 的读取应该放在单独的类里，重构
         public AllocItem ReadFromExcel()
         {
+            
+            SearchForEveryField();
             // 获取起始和终点行
             GetStartAndEndRow();
-
+            
             keyItem.arr.Clear();
             culItem.arr.Clear();
 
@@ -277,14 +282,14 @@ namespace Foundation
                 for (int i = keyStartRow; i <= keyEndRow; ++i)
                 {
                     row = sh.GetRow(i);
-                    field = row.GetCell(0).ToString();
-                    number = row.GetCell(1).ToString();
-                    projID = row.GetCell(2).ToString();
-                    projName = row.GetCell(3).ToString();
-                    projLeader = row.GetCell(4).ToString();
-                    unit = row.GetCell(5).ToString();
+                    field = row.GetCell(ndep).ToString();
+                    number = row.GetCell(nnum).ToString();
+                    projID = row.GetCell(nprojID).ToString();
+                    projName = row.GetCell(nprojName).ToString();
+                    projLeader = row.GetCell(nleader).ToString();
+                    unit = row.GetCell(nunit).ToString();
 
-                    total = Math.Round(Convert.ToDouble(row.GetCell(6).ToString()));
+                    total = Math.Round(Convert.ToDouble(row.GetCell(ntotal).ToString()));
                     inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                     outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
                     // 委内和委外的累计总额
@@ -311,7 +316,7 @@ namespace Foundation
                 total = totsum;
                 inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                 outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
-                projName = row.GetCell(1).ToString() + "==委内委外分配目标【【" + inner.ToString() + "】】【【" + outter.ToString() + "】】";
+                projName = row.GetCell(nnum).ToString() + "==委内委外分配目标【【" + inner.ToString() + "】】【【" + outter.ToString() + "】】";
                 if (inner < innersum) unit += ("修正方向 ==>>    " + " 数量：" + Math.Abs(innersum - inner).ToString());
                 else if (inner > innersum) unit += ("修正方向 <<==    " + " 数量：" + Math.Abs(inner - innersum).ToString());
                 else unit += "无需修正";
@@ -344,14 +349,14 @@ namespace Foundation
                 for (int i = culStartRow; i <= culEndRow; ++i)
                 {
                     row = sh.GetRow(i);
-                    field = row.GetCell(0).ToString();
-                    number = row.GetCell(1).ToString();
-                    projID = row.GetCell(2).ToString();
-                    projName = row.GetCell(3).ToString();
-                    projLeader = row.GetCell(4).ToString();
-                    unit = row.GetCell(5).ToString();
+                    field = row.GetCell(ndep).ToString();
+                    number = row.GetCell(nnum).ToString();
+                    projID = row.GetCell(nprojID).ToString();
+                    projName = row.GetCell(nprojName).ToString();
+                    projLeader = row.GetCell(nleader).ToString();
+                    unit = row.GetCell(nunit).ToString();
 
-                    total = Math.Round(Convert.ToDouble(row.GetCell(6).ToString()));
+                    total = Math.Round(Convert.ToDouble(row.GetCell(ntotal).ToString()));
                     inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                     outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
 
@@ -378,7 +383,7 @@ namespace Foundation
                 total = totsum;
                 inner = Math.Round(total * this.AllocaInner / this.AllocaTotals);
                 outter = Math.Round(total * this.AllocaOutter / this.AllocaTotals);
-                projName = row.GetCell(1).ToString() + "==委内委外分配目标【【" + inner.ToString() + "】】【【" + outter.ToString() + "】】";
+                projName = row.GetCell(nnum).ToString() + "==委内委外分配目标【【" + inner.ToString() + "】】【【" + outter.ToString() + "】】";
                 if (inner < innersum) unit += ("修正方向 ==>>    " + " 数量：" + Math.Abs(innersum - inner).ToString());
                 else if (inner > innersum) unit += ("修正方向 <<==    " + " 数量：" + Math.Abs(inner - innersum).ToString());
                 else unit += "无需修正";
@@ -427,7 +432,7 @@ namespace Foundation
                     row = sh.GetRow(i);
                     if (row != null)
                     {
-                        cell = row.GetCell(1);
+                        cell = row.GetCell(nnum);
                         if (cell != null && IsNumber(cell.ToString()))
                         {
                             if (keyStartRow == 0) keyStartRow = i;
@@ -437,12 +442,14 @@ namespace Foundation
                     }
                 }
 
+                int d = 0;
                 for (int i = keyEndRow + 2; ; i++)
                 {
+                    if (d > 10) break;
                     row = sh.GetRow(i);
                     if (row != null)
                     {
-                        cell = row.GetCell(1);
+                        cell = row.GetCell(nnum);
                         if (cell != null &&!IsNumber(cell.ToString()) && culStartRow != 0) break;
 
                         if (cell != null && IsNumber(cell.ToString()))
@@ -450,10 +457,12 @@ namespace Foundation
                             if (culStartRow == 0) culStartRow = i;
                             culEndRow = i;
                         }
-                        
+                        if (cell.ToString() == "") d++;
                     }
                     
                 }
+                if (culStartRow == 0 && culEndRow == 0) doub = false;
+                else doub = true;
             }
             /* 
              MessageBox.Show(keyStartRow.ToString() + " " + keyEndRow.ToString() + " " +
@@ -478,6 +487,7 @@ namespace Foundation
                 for (int i = keyStartRow; i <= keyEndRow; ++i)
                 {
                     row = sh.GetRow(i);
+                    // ========================================================================================
                     cell = row.GetCell(8);
                     cell.SetCellValue(((ItemDetails)keyItem.arr[i - keyStartRow]).Outter.ToString());
                     // MessageBox.Show(((ItemDetails)keyItem.arr[i - keyStartRow]).Outter.ToString());
@@ -488,6 +498,7 @@ namespace Foundation
                 for (int i = keyStartRow; i <= keyEndRow; ++i)
                 {
                     row = sh.GetRow(i);
+                    // ========================================================================================
                     cell = row.GetCell(7);
                     cell.SetCellValue(((ItemDetails)keyItem.arr[i - keyStartRow]).Inner.ToString());
                 }
@@ -564,5 +575,49 @@ namespace Foundation
             return true;
         }
 
+        // 各个字段：
+        private int ndep;     // 学部、领域
+        private int nnum;     // 序号
+        private int nprojID;  // 项目批准号
+        private int nprojName;    // 项目名称
+        private int nleader;  // 负责人
+        private int nunit;    // 依托单位
+        private int ntotal;   // 小计
+        private int noutter;   // 委外
+        private int ninner;   // 委内
+
+        // 搜索各个字段的具体列号
+        public void SearchForEveryField()
+        {
+            MessageBox.Show("SearchForEveryField In");
+            IRow row = null;
+            ICell cell = null;
+            for (int i = 1; i < 5; ++i)
+            {
+                row = sh.GetRow(i);
+                for (int j = 0; j < 10; ++j)
+                {
+                    cell = row.GetCell(j);
+                    if (ndep == -1) if (cell.ToString().Trim().Contains("领域") || cell.ToString().Trim().Contains("学部")) ndep = j;
+                    if (nnum == -1) if (cell.ToString().Trim().Contains("序号")) nnum = j;
+                    if (nprojID == -1) if (cell.ToString().Trim().Contains("批准号")) nprojID = j;
+                    if (nprojName == -1) if (cell.ToString().Contains("项目名称")) nprojName = j;
+                    if (nleader == -1) if (cell.ToString().Trim().Contains("负责人")) nleader = j;
+                    if (nunit == -1) if (cell.ToString().Contains("依托单位")) nunit = j;
+                    if (ntotal == -1) if (cell.ToString().Contains("小计")) ntotal = j;
+
+                }
+            }
+            noutter = ntotal + 1;
+            ninner = noutter + 1;
+            MessageBox.Show("lingyu" + ndep.ToString());
+            MessageBox.Show("xuhao" + nnum.ToString());
+            MessageBox.Show("pizhunhao" + nprojID.ToString());
+            MessageBox.Show("fuzeren" + nleader.ToString());
+            MessageBox.Show("yituodanwei" + nunit.ToString());
+            MessageBox.Show("xiaoji" + ntotal.ToString());
+        }
+
+        private bool doub = false;
     }
 }

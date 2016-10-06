@@ -2076,6 +2076,7 @@ namespace Foundation
 
 
         private ConAllocation conAll = null;
+        // 选择一个文件以后打开，现在这个按钮仅仅用来选择一个文件而不真正打开
         private void BtnAllocSelectFile_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -2084,13 +2085,25 @@ namespace Foundation
             ofd.FileName = string.Empty;
             ofd.ShowDialog();
             TbxAllocSelectFile.Text = ofd.FileName;
+            /*
             TbxSheetNum.Text = "3";
             if (TbxAllocSelectFile.Text != "" && IsNumber(TbxSheetNum.Text))
             {
                 // MessageBox.Show(TbxAllocSelectFile.Text);
                 conAll = new ConAllocation(ofd.FileName, Convert.ToInt32(TbxSheetNum.Text));
             }
+            */
         }
+
+        // 利用选择的文件名以及 Sheet 序号打开文件并创建一个 ConAllocation 对象
+        private void BtnOpenANewExcel_Click(object sender, RoutedEventArgs e)
+        {
+            if (TbxAllocSelectFile.Text != null && IsNumber(TbxSheetNum.Text))
+            {
+                conAll = new ConAllocation(TbxAllocSelectFile.Text, Convert.ToInt32(TbxSheetNum.Text));
+            }
+        }
+
 
         // 展示在第三页列表的数据绑定项目
         AllocItem ShowItems;
@@ -2222,5 +2235,7 @@ namespace Foundation
                 BtnAllocCalculate_Click(sender, e);
             }
         }
+
+        
     }
 }

@@ -217,14 +217,14 @@
             <TabItem Header="经费分配" Height="100">
                 <Grid>
                     <TextBox x:Name="TbxAllocSelectFile" HorizontalAlignment="Left" Height="27.5" Margin="159.92,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="721.5"/>
-                    <Button x:Name="BtnAllocSelectFile" Content="选择文件" HorizontalAlignment="Left" Height="27.5" Margin="905.42,10,0,0" VerticalAlignment="Top" Width="112.5" Click="BtnAllocSelectFile_Click"/>
+                    <Button x:Name="BtnAllocSelectFile" Content="选择文件" HorizontalAlignment="Left" Height="25" Margin="905.42,10,0,0" VerticalAlignment="Top" Width="79.654" Click="BtnAllocSelectFile_Click"/>
                     <Label x:Name="LbAllocTotals" Content="总金额" HorizontalAlignment="Left" Margin="87.92,63,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="TbxAllocTotals" HorizontalAlignment="Left" Height="23" Margin="159.92,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
                     <Label x:Name="LbAllocOutter" Content="委外" HorizontalAlignment="Left" Margin="375.92,63,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="TbxAllocOutter" HorizontalAlignment="Left" Height="23" Margin="447.92,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="TbxAllocOutter_TextChanged" PreviewKeyDown="TbxAllocOutter_PreviewKeyDown"/>
                     <Label x:Name="LbAllocInner" Content="委内" HorizontalAlignment="Left" Margin="680.42,63,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="TbxAllocInner" HorizontalAlignment="Left" Height="23" Margin="752.42,66,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="TbxAllocInner_TextChanged" PreviewKeyDown="TbxAllocInner_PreviewKeyDown"/>
-                    <Button x:Name="BtnAllocCalculate" Content="分配" HorizontalAlignment="Left" Margin="910.074,63,0,0" VerticalAlignment="Top" Width="75" Height="25.24" Click="BtnAllocCalculate_Click"/>
+                    <Button x:Name="BtnAllocCalculate" Content="分配" HorizontalAlignment="Left" Margin="905.42,63,0,0" VerticalAlignment="Top" Width="79.654" Height="25" Click="BtnAllocCalculate_Click"/>
                     <ListView x:Name="LstShowAllocation" HorizontalAlignment="Left" Height="577.877" Margin="87.92,106.676,0,-2" VerticalAlignment="Top" Width="1046" MouseDoubleClick="LstShowAllocation_MouseDoubleClick">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
@@ -254,12 +254,13 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBox x:Name="TbxSheetNum" HorizontalAlignment="Left" Height="23" Margin="1088.42,12.13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="16"/>
+                    <TextBox x:Name="TbxSheetNum" HorizontalAlignment="Left" Height="23" Margin="1045.761,12.13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="16"/>
                     <!--<Button x:Name="BtnWrite2Excel" Content="写回文件" HorizontalAlignment="Left" Margin="1035.106,64.995,0,0" VerticalAlignment="Top" Width="69.314" Click="BtnWrite2Excel_Click"/>-->
                     <!--<Label x:Name="LbKeyInDiff" Content="重点委内待修正：" HorizontalAlignment="Left" Margin="821.631,107.5,0,0" VerticalAlignment="Top"/>-->
                     <!--<Label x:Name="LbCulInDiff" Content="培育委内待修正：" HorizontalAlignment="Left" Margin="985.074,107.5,0,0" VerticalAlignment="Top"/>-->
-                    <Label x:Name="Lb_1" Content="文件的第" HorizontalAlignment="Left" Margin="1033.606,12.13,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="Lb_2" Content="张表" HorizontalAlignment="Left" Margin="1099.92,12.13,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="Lb_1" Content="文件的第" HorizontalAlignment="Left" Margin="990.947,12.13,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="Lb_2" Content="张表" HorizontalAlignment="Left" Margin="1057.261,12.13,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="BtnOpenANewExcel" Content="打开文件" HorizontalAlignment="Left" Margin="1091.261,10,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="BtnOpenANewExcel_Click"/>
 
                 </Grid>
             </TabItem>
